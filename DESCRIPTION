@@ -6,7 +6,7 @@ Author: person("Kuai", "Yu", email = "kuai.yu@mail.utoronto.ca", role = c("aut",
 Maintainer: Kuai Yu <kuai.yu@mail.utoronto.ca>
 Description: Cov2Comparator is a R package for analyzing SARS covid-2 genome 
   across different geographic regions including performing multiple sequence 
-  alignments, phylogenetic tree and mutation analysis..
+  alignments, phylogenetic tree and mutation analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

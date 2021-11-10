@@ -6,7 +6,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Cov2Comparator is to …
+The goal of Cov2Comparator is to analyze SARS covid-2 genome across
+different geographic regions including performing multiple sequence
+alignments, phylogenetic tree and mutation analysis.
 
 ## Installation
 
@@ -14,8 +16,9 @@ You can install the development version of Cov2Comparator from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("quick2063706271/Cov2Comparator")
+require("devtools")
+devtools::install_github("quick2063706271/Cov2Comparator", build_vignettes = TRUE)
+library("Cov2Comparator")
 ```
 
 ## Example
