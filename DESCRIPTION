@@ -1,11 +1,15 @@
 Package: Cov2Comparator
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Analyzing SARS covid-2 genome across different geographic regions
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: person("Kuai", "Yu", email = "kuai.yu@mail.utoronto.ca", role = c("aut", "cre"))
+Maintainer: Kuai Yu <kuai.yu@mail.utoronto.ca>
+Description: Cov2Comparator is a R package for analyzing SARS covid-2 genome 
+  across different geographic regions including performing multiple sequence 
+  alignments, phylogenetic tree and mutation analysis..
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: R (>= 3.1.0)
