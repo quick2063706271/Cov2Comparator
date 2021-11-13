@@ -72,13 +72,13 @@ multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
 }
 
 saveAlignmentToFasta <- function(alignment, outputName) {
-  writeXStringSet(as(unmasked(alignment), "XStringSet"),
+  Biostrings::writeXStringSet(as(unmasked(alignment), "XStringSet"),
                   file=outputName)
   return()
 }
 
 plotAlignment <- function(alignmentFasta) {
-  msavisr(mymsa = "~/Documents/BCB410/exampleFile/aln.fasta",
+  seqvisr::msavisr(mymsa = "~/Documents/BCB410/exampleFile/aln.fasta",
           myref = "cc")
   return()
 }
