@@ -28,7 +28,7 @@
 #'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 #'
 #' @export
-#' @import Biostrings
+#' @importFrom Biostrings readAAStringSet
 readGenome <- function(fastaFile, nameToRegionsFile) {
   if (class(fastaFile) != "character") {
     stop("Fasta file path should be a string")
@@ -86,16 +86,25 @@ readNameToRegions <- function(nameToRegionsFile) {
 #'analyses in R. Bioinformatics 35: 526-528.
 #'
 #' @export
-#' @import Biostrings ape
+#' @importFrom Biostrings AAStringSet
+#' @importFrom ape read.GenBank
 
 
 getSequenceByRegion <- function(region) {
-  nameToRegions <- data("accessionIDToRegion")
-  accessionId <- nameToRegions[nameToRegions['Region'] == region][1]
+  if (class(region) != "character") {
+    stop("Please input a character as argument")
+  }
+  if (!is.element(region, accessionIDToRegion$Region)) {
+    stop("Sorry, currently data do not contain your interested region yet. \n
+         Please input regions from following: (Canada, Italy, Wuhan, USA,
+         Kenya, Bahrain, Germany, Pakistan, Britain,
+        Thailand)")
+  }
+  accessionId <- accessionIDToRegion[accessionIDToRegion['Region'] == region][1]
   dnabin <- ape::read.GenBank(accessionId, as.character = TRUE)
   sequenceString <- paste(dnabin[[1]], collapse = "")
   aastringSet <- Biostrings::AAStringSet(sequenceString)
-  names(e) <- paste(accessionId, region, sep = " ")
+  names(aastringSet) <- paste(accessionId, region, sep = " ")
   return(aastringSet)
 }
 
@@ -127,14 +136,20 @@ getSequenceByRegion <- function(region) {
 #'analyses in R. Bioinformatics 35: 526-528.
 #'
 #' @export
-#' @import Biostrings ape
+#' @importFrom Biostrings AAStringSet
 getSequencesByRegions <- function(regions) {
-  sequences <- getSequenceByRegion(regions[1])
-  for (i in seq_along(2: length(regions))) {
-    sequences = union(sequences,
-                      getSequencesByRegions(regions[i]))
+  if (length(regions) < 1) {
+    stop("Please input a vector containing at least one element")
   }
-  return(sequences)
+  sequences <- getSequenceByRegion(regions[1])
+  if (length(regions) == 1) {
+    return(AAStringSet(sequences))
+  }
+  regions <-  regions[-1]
+  for (i in seq_along(regions)) {
+    sequences = union(sequences, getSequenceByRegion(regions[i]))
+  }
+  return(AAStringSet(sequences))
 }
 
 # [END]

@@ -35,8 +35,9 @@
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @import seqinr ape msa
-
+#' @importFrom seqinr dist.alignment
+#' @importFrom ape nj
+#' @importFrom msa msaConvert
 
 createTree <- function(alignment) {
   if (class(alignment) != 'MsaAAMultipleAlignment') {
@@ -91,7 +92,8 @@ createTree <- function(alignment) {
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @import seqinr ape msa graphics
+#' @importFrom graphics plot
+#'
 
 
 plotTree <- function(tree, name, showRegionName = TRUE) {

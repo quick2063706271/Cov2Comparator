@@ -1,5 +1,7 @@
 ---
 title: "Cov2Comparator"
+author: "Kuai Yu"
+date: "`r format(Sys.time(), '%d %b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cov2Comparator}
@@ -14,6 +16,63 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(Cov2Comparator)
+## Introduction
+Cov2Comparator is a package that analyzes SARS covid-2 genome across different 
+geographic regions. It allows easy retrieval of SARS COV-2 genome 
+. It can perform multiple sequence alignments and 
+phylogenetic tree. Plot of multiple sequence alignments and 
+phylogenetic tree can be generated for interpretation. This document gives a 
+tour of Cov2Comparator package.
+
+see `help(package = "Cov2Comparator")` for more information and 
+references provided by `citation("Cov2Comparator")`
+
+To download **Cov2Comparator**, use the following commands:
+
+```r
+require("devtools")
+devtools::install_github("quick2063706271/Cov2Comparator", build_vignettes = TRUE)
+library("Cov2Comparator")
 ```
+
+To list all functions available in this package:
+
+```r
+ls("package:Cov2Comparator")
+```
+
+To list dataset in this package:
+
+``` r
+data(package = "Cov2Comparator")
+```
+
+## Components
+There are 7 functions in this package
+
+### Loading and retrieving sequence from NCBI 
+There are three ways to load and retrieve sequence. 
+__*getSequenceByRegion*__ allows user to retrieve a SARS-COV2 genome by 
+inputting a region which user desired. Current supports input from 
+(Canada, Italy, Wuhan, USA, Kenya, Bahrain, Germany, Pakistan, Britain, 
+Thailand)
+
+Here is an example.
+```{r}
+# Please make sure you are connected to the internet
+wuhanSeq <- getSequenceByRegion("Wuhan")
+print(wuhanSeq)
+```
+
+__*getSequencesByRegions*__ allows user to retrieve a SARS-COV2 genome by 
+inputting multiple regions which user desired. Current supports input from 
+(Canada, Italy, Wuhan, USA, Kenya, Bahrain, Germany, Pakistan, Britain, 
+Thailand)
+
+```{r}
+# Please make sure you are connected to the internet
+regions <- c("Wuhan", "Italy", "USA")
+seqs <- getSequencesByRegions(regions)
+print(seqs)
+```
+

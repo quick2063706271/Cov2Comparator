@@ -39,7 +39,8 @@
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @import msa Biostrings seqvisr
+#' @importFrom msa msa
+#'
 multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
   avaialbleAlgorithm <- c("ClustalW", "ClustalOmega", "Muscle")
   if (!is.element(algorithm, avaialbleAlgorithm)) {
@@ -86,7 +87,7 @@ multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
 #'an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
-#' @import msa Biostrings
+#' @importFrom Biostrings writeXStringSet
 
 saveAlignmentToFasta <- function(alignment, outputName) {
   if (class(alignment) != 'MsaAAMultipleAlignment') {
@@ -141,7 +142,7 @@ saveAlignmentToFasta <- function(alignment, outputName) {
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @import msa Biostrings seqvisr
+#' @importFrom seqvisr msavisr
 
 plotAlignment <- function(alignment, outputName = 'align.fasta') {
   saveAlignmentToFasta(alignment, outputName)
