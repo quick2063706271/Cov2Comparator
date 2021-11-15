@@ -4,65 +4,38 @@
 \alias{readGenome}
 \title{Read genome data from user}
 \usage{
-readGenome(fastaFile, nameToRegionsFile, genomeDB)
+readGenome(fastaFile, nameToRegionsFile)
 }
 \arguments{
 \item{fastaFile}{A string indicating the path of .fasta file}
 
-\item{genomeDB}{A dataframe storing sequence and their corresponding region}
+\item{nameToRegionsFile}{A string indicating the path of name to region .csv file}
 
-\item{regions}{A vector indicating the region to which each sequence in fastaFile
-belong}
+\item{genomeDB}{A dataframe storing sequence and their corresponding region}
 }
 \value{
-Returns a dataframe with sequences from fastaFile are add.
+Returns a AAStringSet with sequences from fastaFile are add.
 }
 \description{
 A function that read genome sequence .fasta file from user
 }
 \examples{
 # Example 1
-# Using GeneCounts dataset available with package
-dim(GeneCounts)
+# Load MN985325.1.fasta and MT066156.1.fasta file in inst/extdata
+library(Biostrings)
+fastaPath1 <- system.file("extdata", "MN985325.1.fasta",
+  package="Cov2Comparator")
+fastaPath2 <- system.file("extdata", "MT066156.1.fasta",
+  package="Cov2Comparator")
+nameToRegionsFile <- system.file("extdata", "nameToCountry.txt",
+  package="Cov2Comparator")
+fasta1 <- Biostrings::readAAStringSet(fastaPath1, nameToRegionsFile)
 
-# Calculate information criteria value
-InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-                                             nClusters = 2,
-                                             dimensionality = ncol(GeneCounts),
-                                             observations = nrow(GeneCounts),
-                                             probability = c(0.5, 0.5))
-# To obtain BIC value from results
-InfCriteriaResults$BICresults
 
-\dontrun{
-# Example 2
-# Obtain an external sample RNAseq dataset
-library(MBCluster.Seq)
-data("Count")
-dim(Count)
 
-# Calculate information criteria value
-InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-                                             nClusters = 2,
-                                             dimensionality = ncol(Count),
-                                             observations = nrow(Count),
-                                             probability = c(0.5, 0.5))
-InfCriteriaResults$BICresults
-}
 }
 \references{
-Akaike, H. (1973). Information theory and an extension of the maximum
-likelihood principle. In \emph{Second International Symposium on Information
-Theory}, New York, NY, USA, pp. 267–281. Springer Verlag. \href{https://link.springer.com/chapter/10.1007/978-1-4612-1694-0_15}{Link}
-
-Biernacki, C., G. Celeux, and G. Govaert (2000). Assessing a mixture model for
-clustering with the integrated classification likelihood. \emph{IEEE Transactions on Pattern
-Analysis and Machine Intelligence} 22. \href{https://hal.inria.fr/inria-00073163/document}{Link}
-
-Schwarz, G. (1978). Estimating the dimension of a model. \emph{The Annals of Statistics} 6, 461–464.
-\href{https://projecteuclid.org/euclid.aos/1176344136}{Link}.
-
-Yaqing, S. (2012). MBCluster.Seq: Model-Based Clustering for RNA-seq
-Data. R package version 1.0.
-\href{https://CRAN.R-project.org/package=MBCluster.Seq}{Link}.
+H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
+Efficient manipulation of biological strings.
+R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 }

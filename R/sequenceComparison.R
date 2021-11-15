@@ -64,14 +64,17 @@
 #'\href{https://CRAN.R-project.org/package=MBCluster.Seq}{Link}.
 #'
 #' @export
-#' @import msa
+#' @import msa Biostrings seqvisr
 multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
 
   alignment <- msa::msa(sequences, algorithm)
   return(alignment)
 }
 
-saveAlignmentToFasta <- function(alignment, outputName) {
+saveAlignmentToFasta <- function(alignment, outputName = 'align.fasta') {
+  if (class(alignment) != 'MsaAAMultipleAlignment') {
+    stop("Please provide a MsaAAMultipleAlignment object as input")
+  }
   Biostrings::writeXStringSet(as(unmasked(alignment), "XStringSet"),
                   file=outputName)
   return()

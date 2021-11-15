@@ -1,82 +1,53 @@
-#' Compare multiple sequence alignments
+#' Create a neighbor join tree object
 #'
-#' A function that calculates information by doing multiple sequence alignments
+#' A function that creates a neighbor join tree from multiple sequence alignment
 #'
-#' @param loglikelihood A negative value of class "numeric" indicating
-#'    the log-likelihood
-#' @param nClusters A positive integer indicating the number of clusters
-#' @param dimensionality A positive integer indicating the dimensionality
-#'    of dataset
-#' @param observations A positive integer indicating the number of observations
-#' @param probability A vector indicating the probability of each cluster. The
-#'    vector should sum to 1.
-#'
-#' @return Returns an S3 object of class InfCriteria with results.
-#' \itemize{
-#'   \item BICresults - A value of class "numeric" indicating BIC value
-#'   \item AICresults - A value of class "numeric" indicating AIC value
-#'   \item ICLresults - A value of class "numeric" indicating ICL value
-#' }
+#' @param alignment A MsaAAMultipleAlignment object for creating phylogenetic
+#' tree
+#' @return Returns an phylo object which is a phylogenetic tree
 #'
 #' @examples
 #' # Example 1
 #' # Using GeneCounts dataset available with package
 #' dim(GeneCounts)
 #'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(GeneCounts),
-#'                                              observations = nrow(GeneCounts),
-#'                                              probability = c(0.5, 0.5))
-#' # To obtain BIC value from results
-#' InfCriteriaResults$BICresults
-#'
-#' \dontrun{
-#' # Example 2
-#' # Obtain an external sample RNAseq dataset
-#' library(MBCluster.Seq)
-#' data("Count")
-#' dim(Count)
-#'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(Count),
-#'                                              observations = nrow(Count),
-#'                                              probability = c(0.5, 0.5))
-#' InfCriteriaResults$BICresults
-#'}
 #' @references
-#'Akaike, H. (1973). Information theory and an extension of the maximum
-#'likelihood principle. In \emph{Second International Symposium on Information
-#'Theory}, New York, NY, USA, pp. 267–281. Springer Verlag. \href{https://link.springer.com/chapter/10.1007/978-1-4612-1694-0_15}{Link}
+#'Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
+#'project for statistical computing devoted to biological sequences retrieval
+#'and analysis.” In Bastolla U, Porto M, Roman H, Vendruscolo M (eds.),
+#'Structural approaches to sequence evolution: Molecules, networks,
+#'populations, series Biological and Medical Physics, Biomedical Engineering,
+#'207-232. Springer Verlag, New York.
 #'
-#'Biernacki, C., G. Celeux, and G. Govaert (2000). Assessing a mixture model for
-#'clustering with the integrated classification likelihood. \emph{IEEE Transactions on Pattern
-#'Analysis and Machine Intelligence} 22. \href{https://hal.inria.fr/inria-00073163/document}{Link}
+#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'phylogenetics and evolutionaryanalyses in R. Bioinformatics 35: 526-528.
 #'
-#'Schwarz, G. (1978). Estimating the dimension of a model. \emph{The Annals of Statistics} 6, 461–464.
-#'\href{https://projecteuclid.org/euclid.aos/1176344136}{Link}.
-#'
-#'Yaqing, S. (2012). MBCluster.Seq: Model-Based Clustering for RNA-seq
-#'Data. R package version 1.0.
-#'\href{https://CRAN.R-project.org/package=MBCluster.Seq}{Link}.
+#'U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
+#'an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
+#'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @import msa
+#' @import seqinr ape
 
 
 createTree <- function(alignment) {
+  if (class(alignment) != 'MsaAAMultipleAlignment') {
+    stop("Please provide a MsaAAMultipleAlignment object as input")
+  }
   hemoAln2 <- msaConvert(alignment, type="seqinr::alignment")
-  distanceMatrix <- dist.alignment(hemoAln2, "identity")
+  distanceMatrix <- seqinr::dist.alignment(hemoAln2, "identity")
   as.matrix(distanceMatrix)
   tree <- ape::nj(distanceMatrix)
   return(tree)
 }
 
-plotTree <- function(tree, name) {
-  plot(hemoTree, main = name)
+plotTree <- function(tree, name, showRegionName = TRUE) {
+  if (!showRegionName) {
+    for (i in seq_along(1: length(hemoTree$tip.label))) {
+      tree$tip.label[i] = strsplit(tree$tip.label[[i]], " ")[[1]][1]
+    }
+  }
+  plot(tree, main = name)
   return()
 }
 # [END]

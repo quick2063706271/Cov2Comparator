@@ -3,76 +3,138 @@
 #' A function that read genome sequence .fasta file from user
 #'
 #' @param fastaFile A string indicating the path of .fasta file
-#' @param regions A vector indicating the region to which each sequence in fastaFile
-#'  belong
+#' @param nameToRegionsFile A string indicating the path of name to region .csv file
 #' @param genomeDB A dataframe storing sequence and their corresponding region
 #'
-#' @return Returns a dataframe with sequences from fastaFile are add.
+#' @return Returns a AAStringSet with sequences from fastaFile are add.
 #'
 #' @examples
 #' # Example 1
-#' # Using GeneCounts dataset available with package
-#' dim(GeneCounts)
+#' # Load MN985325.1.fasta and MT066156.1.fasta file in inst/extdata
+#' library(Biostrings)
+#' fastaPath1 <- system.file("extdata", "MN985325.1.fasta",
+#'   package="Cov2Comparator")
+#' fastaPath2 <- system.file("extdata", "MT066156.1.fasta",
+#'   package="Cov2Comparator")
+#' nameToRegionsFile <- system.file("extdata", "nameToCountry.txt",
+#'   package="Cov2Comparator")
+#' fasta1 <- Biostrings::readAAStringSet(fastaPath1, nameToRegionsFile)
 #'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(GeneCounts),
-#'                                              observations = nrow(GeneCounts),
-#'                                              probability = c(0.5, 0.5))
-#' # To obtain BIC value from results
-#' InfCriteriaResults$BICresults
 #'
-#' \dontrun{
-#' # Example 2
-#' # Obtain an external sample RNAseq dataset
-#' library(MBCluster.Seq)
-#' data("Count")
-#' dim(Count)
 #'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(Count),
-#'                                              observations = nrow(Count),
-#'                                              probability = c(0.5, 0.5))
-#' InfCriteriaResults$BICresults
-#'}
 #' @references
-#'Akaike, H. (1973). Information theory and an extension of the maximum
-#'likelihood principle. In \emph{Second International Symposium on Information
-#'Theory}, New York, NY, USA, pp. 267–281. Springer Verlag. \href{https://link.springer.com/chapter/10.1007/978-1-4612-1694-0_15}{Link}
-#'
-#'Biernacki, C., G. Celeux, and G. Govaert (2000). Assessing a mixture model for
-#'clustering with the integrated classification likelihood. \emph{IEEE Transactions on Pattern
-#'Analysis and Machine Intelligence} 22. \href{https://hal.inria.fr/inria-00073163/document}{Link}
-#'
-#'Schwarz, G. (1978). Estimating the dimension of a model. \emph{The Annals of Statistics} 6, 461–464.
-#'\href{https://projecteuclid.org/euclid.aos/1176344136}{Link}.
-#'
-#'Yaqing, S. (2012). MBCluster.Seq: Model-Based Clustering for RNA-seq
-#'Data. R package version 1.0.
-#'\href{https://CRAN.R-project.org/package=MBCluster.Seq}{Link}.
+#'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
+#'Efficient manipulation of biological strings.
+#'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 #'
 #' @export
-#' @import seqinr
-readGenome <- function(fastaFile, nameToRegionsFile, genomeDB) {
+#' @import Biostrings
+readGenome <- function(fastaFile, nameToRegionsFile) {
+  if (class(fastaFile) != "character") {
+    stop("Fasta file path should be a string")
+  }
   nameToRegions <- readNameToRegions(nameToRegionsFile = nameToRegionsFile)
   userSequence <- Biostrings::readAAStringSet(fastaFile)
-  if (len(userSequence == 0) | len(nameToRegions) == 0 ) {
-    # raise error
+  if (missing(nameToRegionsFile)) {
+    return(userSequence)
+  }
+  if (len(userSequence == 0)) {
+    stop("Fasta File contains no sequence")
   }
   for (i in seq_along(1: len(userSequence))) {
-    names(userSequence)[i] <- nameToRegions[nameToRegions['Name'] == names(userSequence)[i]][2]
+    names(userSequence)[i] <-
+      nameToRegions[nameToRegions['Name'] == names(userSequence)[i]][2]
   }
-  genomeDB <- union(genomeDB, userSequence)
-  return(genomeDB)
+  return(userSequence)
 }
 
+
 readNameToRegions <- function(nameToRegionsFile) {
+  if (class(nameToRegionsFile) != "character") {
+    stop("nameToRegionsFile path should be a string")
+  }
   nameToRegions <- read.csv(nameToRegionsFile, header = FALSE)
   names(nameToRegions) <- c("Name", "Region")
   return(nameToRegions)
+}
+
+#' Read genome sequence data from user by inputing region
+#'
+#' A function that takes region as input. It will look up the accessionID of
+#' SARS-COV2 of this region. Then it will retrieve the sequence from NCBI
+#' database online and return as a AAStringSet object.
+#'
+#' @param region A string indicating the interested region in which SARS-COV2
+#' are located that you want to study
+#'
+#' @return Returns a AAStringSet with sequences.
+#'
+#' @examples
+#' # Example 1
+#' # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
+#' # using "Italy" as input
+#' region <- "Italy"
+#' italySequence <- getSequenceByRegion("Italy")
+#'
+#' @references
+#'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
+#'Efficient manipulation of biological strings.
+#'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
+#'
+#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'phylogenetics and evolutionary
+#'analyses in R. Bioinformatics 35: 526-528.
+#'
+#' @export
+#' @import Biostrings ape
+
+
+getSequenceByRegion <- function(region) {
+  nameToRegions <- data("accessionIDToRegion")
+  accessionId <- nameToRegions[nameToRegions['Region'] == region][1]
+  dnabin <- ape::read.GenBank(accessionId, as.character = TRUE)
+  sequenceString <- paste(dnabin[[1]], collapse = "")
+  aastringSet <- Biostrings::AAStringSet(sequenceString)
+  names(e) <- paste(accessionId, region, sep = " ")
+  return(aastringSet)
+}
+
+#' Read multiple genome sequence data from user by inputting a vector of regions
+#'
+#' A function that takes regions as input. It will look up the accessionIDs of
+#' SARS-COV2 of this region. Then it will retrieve the sequences from NCBI
+#' database online and return as a AAStringSet object.
+#'
+#' @param regions A vector of strings indicating the interested regions in
+#' which SARS-COV2 are located that you want to study
+#'
+#' @return Returns a AAStringSet with sequences.
+#'
+#' @examples
+#' # Example 1
+#' # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
+#' # using "Italy" as input
+#' regions <- c("Italy", "Canada", "USA")
+#' Sequence <- getSequencesByRegions(Regions)
+#'
+#' @references
+#'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
+#'Efficient manipulation of biological strings.
+#'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
+#'
+#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'phylogenetics and evolutionary
+#'analyses in R. Bioinformatics 35: 526-528.
+#'
+#' @export
+#' @import Biostrings ape
+getSequencesByRegions <- function(regions) {
+  sequences <- getSequenceByRegion(regions[1])
+  for (i in seq_along(2, length(regions))) {
+    sequences = union(sequences,
+                      getSequencesByRegions(regions[i], nameToRegions))
+  }
+  return(sequences)
 }
 
 # [END]
