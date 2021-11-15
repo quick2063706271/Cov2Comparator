@@ -112,5 +112,19 @@ p <- plotAlignment(align, 'align.fasta')
 p
 ```
 
+After that, multiple sequence alignment can be used to generate phylogenetic 
+tree using __*createTree*__
+```{r}
+tree <- createTree(align)
+```
+
+Tree can be ploted using __*plotTree*__
+
+```{r}
+plotTree(tree,
+         name = "demo Alignment",
+         showRegionName = TRUE)
+```
+
 
 

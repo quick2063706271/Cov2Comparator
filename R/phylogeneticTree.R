@@ -40,8 +40,8 @@
 #' @importFrom msa msaConvert
 
 createTree <- function(alignment) {
-  if (class(alignment) != 'MsaAAMultipleAlignment') {
-    stop("Please provide a MsaAAMultipleAlignment object as input")
+  if (class(alignment) != 'MsaDNAMultipleAlignment') {
+    stop("Please provide a MsaDNAMultipleAlignment object as input")
   }
   aln2 <- msa::msaConvert(alignment, type="seqinr::alignment")
   distanceMatrix <- seqinr::dist.alignment(aln2, "identity")
@@ -97,10 +97,10 @@ createTree <- function(alignment) {
 
 
 plotTree <- function(tree, name, showRegionName = TRUE) {
-  if (class(tree) == "phylo") {
+  if (class(tree) != "phylo") {
     stop("Not a phylo tree object")
   }
-  if (class(name) == "character") {
+  if (class(name) != "character") {
     stop("Please input a valid plot name")
   }
   if (!showRegionName) {
@@ -108,7 +108,7 @@ plotTree <- function(tree, name, showRegionName = TRUE) {
       tree$tip.label[i] = strsplit(tree$tip.label[[i]], " ")[[1]][1]
     }
   }
-  plot <- graphic::plot(tree, main = name)
+  plot <- graphics::plot(tree, main = name)
   return(plot)
 }
 # [END]
