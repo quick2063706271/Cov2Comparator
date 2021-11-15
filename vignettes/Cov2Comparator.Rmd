@@ -1,0 +1,19 @@
+---
+title: "Cov2Comparator"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cov2Comparator}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Cov2Comparator)
+```
