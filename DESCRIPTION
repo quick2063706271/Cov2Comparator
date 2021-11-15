@@ -18,5 +18,8 @@ Imports:
   msa,
   seqvisr,
   ape,
-  seqinr
-  
+  seqinr,
+  graphics
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

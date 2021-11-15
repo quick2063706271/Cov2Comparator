@@ -1,87 +1,154 @@
 #' Compare multiple sequence alignments
 #'
-#' A function that calculates information by doing multiple sequence alignments
+#' A function that calculates multiple sequence alignments
 #'
-#' @param loglikelihood A negative value of class "numeric" indicating
-#'    the log-likelihood
-#' @param nClusters A positive integer indicating the number of clusters
-#' @param dimensionality A positive integer indicating the dimensionality
-#'    of dataset
-#' @param observations A positive integer indicating the number of observations
-#' @param probability A vector indicating the probability of each cluster. The
-#'    vector should sum to 1.
+#' @param sequences A AAStringset containing several sequences
+#' @param algorithm A string indicating the algorithm that user wants to use
+#' to calculate multiple sequence alignment
 #'
-#' @return Returns an S3 object of class InfCriteria with results.
-#' \itemize{
-#'   \item BICresults - A value of class "numeric" indicating BIC value
-#'   \item AICresults - A value of class "numeric" indicating AIC value
-#'   \item ICLresults - A value of class "numeric" indicating ICL value
-#' }
+#' @return Returns a msa
 #'
 #' @examples
 #' # Example 1
-#' # Using GeneCounts dataset available with package
-#' dim(GeneCounts)
-#'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(GeneCounts),
-#'                                              observations = nrow(GeneCounts),
-#'                                              probability = c(0.5, 0.5))
-#' # To obtain BIC value from results
-#' InfCriteriaResults$BICresults
-#'
+#' # Create a basic msa and then plot a tree from it
+#' package(msa)
+#' package(Biostrings)
+#' set1 <- Biostrings::AAStringSet("ATCGATCG")
+#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::AAStringSet("ATCGATTT")
+#' set <- union(set1, set2)
+#' set <- union(set, set3)
+#' align <- multiplSeqAlign(set)
+
 #' \dontrun{
 #' # Example 2
-#' # Obtain an external sample RNAseq dataset
-#' library(MBCluster.Seq)
-#' data("Count")
-#' dim(Count)
-#'
-#' # Calculate information criteria value
-#' InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-#'                                              nClusters = 2,
-#'                                              dimensionality = ncol(Count),
-#'                                              observations = nrow(Count),
-#'                                              probability = c(0.5, 0.5))
-#' InfCriteriaResults$BICresults
 #'}
 #' @references
-#'Akaike, H. (1973). Information theory and an extension of the maximum
-#'likelihood principle. In \emph{Second International Symposium on Information
-#'Theory}, New York, NY, USA, pp. 267–281. Springer Verlag. \href{https://link.springer.com/chapter/10.1007/978-1-4612-1694-0_15}{Link}
+#'Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
+#'project for statistical computing devoted to biological sequences retrieval
+#'and analysis.” In Bastolla U, Porto M, Roman H, Vendruscolo M (eds.),
+#'Structural approaches to sequence evolution: Molecules, networks,
+#'populations, series Biological and Medical Physics, Biomedical Engineering,
+#'207-232. Springer Verlag, New York.
 #'
-#'Biernacki, C., G. Celeux, and G. Govaert (2000). Assessing a mixture model for
-#'clustering with the integrated classification likelihood. \emph{IEEE Transactions on Pattern
-#'Analysis and Machine Intelligence} 22. \href{https://hal.inria.fr/inria-00073163/document}{Link}
+#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'phylogenetics and evolutionaryanalyses in R. Bioinformatics 35: 526-528.
 #'
-#'Schwarz, G. (1978). Estimating the dimension of a model. \emph{The Annals of Statistics} 6, 461–464.
-#'\href{https://projecteuclid.org/euclid.aos/1176344136}{Link}.
-#'
-#'Yaqing, S. (2012). MBCluster.Seq: Model-Based Clustering for RNA-seq
-#'Data. R package version 1.0.
-#'\href{https://CRAN.R-project.org/package=MBCluster.Seq}{Link}.
+#'U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
+#'an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
+#'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
 #' @import msa Biostrings seqvisr
 multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
-
+  avaialbleAlgorithm <- c("ClustalW", "ClustalOmega", "Muscle")
+  if (!is.element(algorithm, avaialbleAlgorithm)) {
+    stop("Please input a valid algorithm from (ClustalW, ClustalOmega, Muscle)")
+  }
   alignment <- msa::msa(sequences, algorithm)
   return(alignment)
 }
+#' Save alignment to a fasta file
+#'
+#' A helper function that saves alignment to a fasta file
+#'
+#' @param alignment A MsaAAMultipleAlignment obtained from multiple sequence
+#' alignment
+#' @param outputName A string indicating the path that it saves to
+#'
+#' @return Returns NULL
+#'
+#' @examples
+#' # Example 1
+#' # Create a basic msa and then plot a tree from it
+#' package(msa)
+#' package(Biostrings)
+#' set1 <- Biostrings::AAStringSet("ATCGATCG")
+#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::AAStringSet("ATCGATTT")
+#' set <- union(set1, set2)
+#' set <- union(set, set3)
+#' align <- multiplSeqAlign(set)
+#' saveAlignmentToFasta(align, "align.fasta")
 
-saveAlignmentToFasta <- function(alignment, outputName = 'align.fasta') {
+#' \dontrun{
+#' # Example 2
+#'}
+#' @references
+#'Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
+#'project for statistical computing devoted to biological sequences retrieval
+#'and analysis.” In Bastolla U, Porto M, Roman H, Vendruscolo M (eds.),
+#'Structural approaches to sequence evolution: Molecules, networks,
+#'populations, series Biological and Medical Physics, Biomedical Engineering,
+#'207-232. Springer Verlag, New York.
+
+#'U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
+#'an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
+#'9999. DOI: 10.1093/bioinformatics/btv176.
+#'
+#' @import msa Biostrings
+
+saveAlignmentToFasta <- function(alignment, outputName) {
   if (class(alignment) != 'MsaAAMultipleAlignment') {
     stop("Please provide a MsaAAMultipleAlignment object as input")
   }
+  if (class(outputName) != 'character') {
+    stop("Please input a valid output name")
+  }
   Biostrings::writeXStringSet(as(unmasked(alignment), "XStringSet"),
                   file=outputName)
-  return()
+  return(NULL)
 }
 
-plotAlignment <- function(alignmentFasta) {
-  seqvisr::msavisr(mymsa = "~/Documents/BCB410/exampleFile/aln.fasta",
+#' Compare multiple sequence alignments
+#'
+#' A function that calculates multiple sequence alignments
+#'
+#' @param sequences A AAStringset containing several sequences
+#' @param algorithm A string indicating the algorithm that user wants to use
+#' to calculate multiple sequence alignment
+#'
+#' @return Returns a msa
+#'
+#' @examples
+#' # Example 1
+#' # Create a basic msa and then plot a tree from it
+#' package(Biostrings)
+#' set1 <- Biostrings::AAStringSet("ATCGATCG")
+#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::AAStringSet("ATCGATTT")
+#' set <- union(set1, set2)
+#' set <- union(set, set3)
+#' align <- multiplSeqAlign(set)
+#' plotAlignment(align)
+#'
+#' \dontrun{
+#' # Example 2
+#'}
+#' @references
+#'Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
+#'project for statistical computing devoted to biological sequences retrieval
+#'and analysis.” In Bastolla U, Porto M, Roman H, Vendruscolo M (eds.),
+#'Structural approaches to sequence evolution: Molecules, networks,
+#'populations, series Biological and Medical Physics, Biomedical Engineering,
+#'207-232. Springer Verlag, New York.
+#'
+#'Venket Raghavan (2021). seqvisr: Biological Sequence Visualization Functions
+#'in R. R package version 0.2.5. https://github.com/vragh/seqvisr
+#'
+#'U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
+#'an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
+#'9999. DOI: 10.1093/bioinformatics/btv176.
+#'
+#' @export
+#' @import msa Biostrings seqvisr
+
+plotAlignment <- function(alignment, outputName = 'align.fasta') {
+  saveAlignmentToFasta(alignment, outputName)
+  if (!file.exists(outputName)) {
+    stop("File not found")
+  }
+  seqvisr::msavisr(mymsa = outputName,
           myref = "cc")
   return()
 }

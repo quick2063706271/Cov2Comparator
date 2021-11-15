@@ -130,9 +130,9 @@ getSequenceByRegion <- function(region) {
 #' @import Biostrings ape
 getSequencesByRegions <- function(regions) {
   sequences <- getSequenceByRegion(regions[1])
-  for (i in seq_along(2, length(regions))) {
+  for (i in seq_along(2: length(regions))) {
     sequences = union(sequences,
-                      getSequencesByRegions(regions[i], nameToRegions))
+                      getSequencesByRegions(regions[i]))
   }
   return(sequences)
 }

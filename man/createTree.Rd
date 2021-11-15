@@ -11,24 +11,23 @@ createTree(alignment)
 tree}
 }
 \value{
-Returns an phylo object which is a phylogenetic tree
+Returns a phylo object which is a phylogenetic tree
 }
 \description{
 A function that creates a neighbor join tree from multiple sequence alignment
 }
 \examples{
 # Example 1
-# Using GeneCounts dataset available with package
-dim(GeneCounts)
-
-# Calculate information criteria value
-InfCriteriaResults <- InfCriteriaCalculation(loglikelihood = -5080,
-                                             nClusters = 2,
-                                             dimensionality = ncol(GeneCounts),
-                                             observations = nrow(GeneCounts),
-                                             probability = c(0.5, 0.5))
-# To obtain BIC value from results
-InfCriteriaResults$BICresults
+# Create a basic msa and then create a tree from it
+package(msa)
+package(Biostrings)
+set1 <- Biostrings::AAStringSet("ATCGATCG")
+set2 <- Biostrings::AAStringSet("ATTTTTTT")
+set3 <- Biostrings::AAStringSet("ATCGATTT")
+set <- union(set1, set2)
+set <- union(set, set3)
+align <- msa::msa(set)
+createTree(align)
 
 }
 \references{
