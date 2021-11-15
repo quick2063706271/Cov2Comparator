@@ -31,6 +31,43 @@ devtools::install_github("quick2063706271/Cov2Comparator", build_vignettes = TRU
 library("Cov2Comparator")
 ```
 
+## Overview
+```r
+ls("package:Cov2Comparator")
+data(package = "Cov2Comparator") 
+```
+
+### Vignettes
+```r
+browseVignettes("Cov2Comparator")
+```
+
+## Reference
+R Core Team (2021). R: A language and environment for statistical computing. 
+R Foundation for Statistical Computing, Vienna, Austria. URL
+  https://www.R-project.org/.
+
+Charif D, Lobry J. (2007). “SeqinR 1.0-2: a contributed package to the R
+project for statistical computing devoted to biological sequences retrieval
+and analysis.” In Bastolla U, Porto M, Roman H, Vendruscolo M (eds.),
+Structural approaches to sequence evolution: Molecules, networks,
+populations, series Biological and Medical Physics, Biomedical Engineering,
+207-232. Springer Verlag, New York.
+
+Venket Raghavan (2021). seqvisr: Biological Sequence Visualization Functions
+in R. R package version 0.2.5. https://github.com/vragh/seqvisr
+
+U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
+an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
+9999. DOI: 10.1093/bioinformatics/btv176.
+
+Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern
+phylogenetics and evolutionaryanalyses in R. Bioinformatics 35: 526-528.
+
+## Acknowledgemments
+This package was developed as part of an assessment for 2021 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
+
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:

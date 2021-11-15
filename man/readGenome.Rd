@@ -4,7 +4,7 @@
 \alias{readGenome}
 \title{Read genome data from user}
 \usage{
-readGenome(fastaFile, nameToRegionsFile)
+readGenome(fastaFile, nameToRegionsFile = NULL)
 }
 \arguments{
 \item{fastaFile}{A string indicating the path of .fasta file}
@@ -22,14 +22,13 @@ A function that read genome sequence .fasta file from user
 \examples{
 # Example 1
 # Load MN985325.1.fasta and MT066156.1.fasta file in inst/extdata
-library(Biostrings)
 fastaPath1 <- system.file("extdata", "MN985325.1.fasta",
   package="Cov2Comparator")
 fastaPath2 <- system.file("extdata", "MT066156.1.fasta",
   package="Cov2Comparator")
 nameToRegionsFile <- system.file("extdata", "nameToCountry.txt",
   package="Cov2Comparator")
-fasta1 <- Biostrings::readAAStringSet(fastaPath1, nameToRegionsFile)
+fasta1 <- readGenome(fastaPath1, nameToRegionsFile)
 
 
 
