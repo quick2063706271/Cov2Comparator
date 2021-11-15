@@ -32,7 +32,7 @@ readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
   if (class(fastaFile) != "character") {
     stop("Fasta file path should be a string")
   }
-  userSequence <- Biostrings::readAAStringSet(fastaFile)
+  userSequence <- Biostrings::readDNAStringSet(fastaFile)
   if (is.null(nameToRegionsFile)) {
     return(userSequence)
   }
@@ -105,9 +105,9 @@ getSequenceByRegion <- function(region) {
   accessionId <- accessionIDToRegion[accessionIDToRegion['Region'] == region][1]
   dnabin <- ape::read.GenBank(accessionId, as.character = TRUE)
   sequenceString <- paste(dnabin[[1]], collapse = "")
-  aastringSet <- Biostrings::AAStringSet(sequenceString)
+  aastringSet <- Biostrings::DNAStringSet(sequenceString)
   names(aastringSet) <- paste(accessionId, region, sep = " ")
-  return(aastringSet)
+  return(Biostrings::DNAStringSet(aastringSet))
 }
 
 #' Read multiple genome sequence data from user by inputting a vector of regions
@@ -143,15 +143,20 @@ getSequencesByRegions <- function(regions) {
   if (length(regions) < 1) {
     stop("Please input a vector containing at least one element")
   }
+  newNames <- vector(mode='character', length=length(regions))
   sequences <- getSequenceByRegion(regions[1])
+  newNames[1] <- names(sequences)[1]
   if (length(regions) == 1) {
-    return(AAStringSet(sequences))
+    return(DNAStringSet(sequences))
   }
-  regions <-  regions[-1]
+  regions <- regions[-1]
   for (i in seq_along(regions)) {
-    sequences = union(sequences, getSequenceByRegion(regions[i]))
+    iseq <- getSequenceByRegion(regions[i])
+    newNames[i + 1] <- names(iseq)[1]
+    sequences = union(sequences, iseq)
   }
-  return(AAStringSet(sequences))
+  names(sequences) <- newNames
+  return(DNAStringSet(sequences))
 }
 
 # [END]

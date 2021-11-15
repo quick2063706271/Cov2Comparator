@@ -98,3 +98,19 @@ names(fasta1) <- c("MN985325.1 USA")
 print(fasta1)
 ```
 
+After loading the data, we can perform a multiple sequence alignment using 
+__*multiplSeqAlign*__. This functions is derived from __*msa::msa*__ 
+```{R}
+seqs
+align <- multiplSeqAlign(seqs, algorithm = 'ClustalW')
+align
+```
+We can plot the alignment using __*plotAlignment*__
+
+```{r}
+p <- plotAlignment(align, 'align.fasta')
+p
+```
+
+
+

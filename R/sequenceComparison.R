@@ -90,15 +90,16 @@ multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
 #' @importFrom Biostrings writeXStringSet
 
 saveAlignmentToFasta <- function(alignment, outputName) {
-  if (class(alignment) != 'MsaAAMultipleAlignment') {
-    stop("Please provide a MsaAAMultipleAlignment object as input")
+  if (class(alignment) != 'MsaDNAMultipleAlignment') {
+    stop("Please provide a MsaDNAMultipleAlignment object as input")
   }
   if (class(outputName) != 'character') {
     stop("Please input a valid output name")
   }
+  saveLocation <- paste(getwd(), "/", sep = "")
   Biostrings::writeXStringSet(as(unmasked(alignment), "XStringSet"),
-                  file=outputName)
-  return(NULL)
+                  file = paste(saveLocation, outputName, sep = ""))
+  return(paste(saveLocation, outputName, sep = ""))
 }
 
 #' Compare multiple sequence alignments
@@ -145,12 +146,9 @@ saveAlignmentToFasta <- function(alignment, outputName) {
 #' @importFrom seqvisr msavisr
 
 plotAlignment <- function(alignment, outputName = 'align.fasta') {
-  saveAlignmentToFasta(alignment, outputName)
-  if (!file.exists(outputName)) {
-    stop("File not found")
-  }
-  seqvisr::msavisr(mymsa = outputName,
-          myref = "cc")
-  return()
+  msaFile <- saveAlignmentToFasta(alignment, outputName)
+  splot <- seqvisr::msavisr(mymsa = msaFile,
+          myref = 'NC_045512.2 Wuhan')
+  return(splot)
 }
 # [END]
