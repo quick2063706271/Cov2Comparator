@@ -76,3 +76,25 @@ seqs <- getSequencesByRegions(regions)
 print(seqs)
 ```
 
+The last way to add is using __*readGenome*__. This function allows user to input fasta file as input, user can also include a nameToRegion file, which contains one to one correspondence of accessionID and region.
+```{r}
+fastaPath1 <- system.file("extdata", "MN985325.1.fasta", package="Cov2Comparator")
+nameToRegionsFile <- system.file("extdata", "nameToCountry.txt", package="Cov2Comparator")
+fasta1 <- readGenome(fastaPath1, nameToRegionsFile)
+fasta1
+```
+
+User do not to provide nameToRegion file. In that case, users are recommanded to
+modify the name by themselves
+
+```{r}
+fastaPath1 <- system.file("extdata", "MN985325.1.fasta", package="Cov2Comparator")
+nameToRegionsFile <- system.file("extdata", "nameToCountry.txt", package="Cov2Comparator")
+fasta1 <- readGenome(fastaPath1)
+print(fasta1)
+# After modifying name
+cat("\nAfter modifying name\n\n")
+names(fasta1) <- c("MN985325.1 USA")
+print(fasta1)
+```
+

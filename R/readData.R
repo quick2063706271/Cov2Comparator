@@ -11,14 +11,13 @@
 #' @examples
 #' # Example 1
 #' # Load MN985325.1.fasta and MT066156.1.fasta file in inst/extdata
-#' library(Biostrings)
 #' fastaPath1 <- system.file("extdata", "MN985325.1.fasta",
 #'   package="Cov2Comparator")
 #' fastaPath2 <- system.file("extdata", "MT066156.1.fasta",
 #'   package="Cov2Comparator")
 #' nameToRegionsFile <- system.file("extdata", "nameToCountry.txt",
 #'   package="Cov2Comparator")
-#' fasta1 <- Biostrings::readAAStringSet(fastaPath1, nameToRegionsFile)
+#' fasta1 <- readGenome(fastaPath1, nameToRegionsFile)
 #'
 #'
 #'
@@ -29,22 +28,25 @@
 #'
 #' @export
 #' @importFrom Biostrings readAAStringSet
-readGenome <- function(fastaFile, nameToRegionsFile) {
+readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
   if (class(fastaFile) != "character") {
     stop("Fasta file path should be a string")
   }
-  nameToRegions <- readNameToRegions(nameToRegionsFile = nameToRegionsFile)
   userSequence <- Biostrings::readAAStringSet(fastaFile)
-  if (missing(nameToRegionsFile)) {
+  if (is.null(nameToRegionsFile)) {
     return(userSequence)
   }
-  if (len(userSequence == 0)) {
+  nameToRegions <- readNameToRegions(nameToRegionsFile = nameToRegionsFile)
+  if (length(userSequence) == 0) {
     stop("Fasta File contains no sequence")
   }
-  for (i in seq_along(1: len(userSequence))) {
-    names(userSequence)[i] <-
-      nameToRegions[nameToRegions['Name'] == names(userSequence)[i]][2]
+  newNames <- vector(mode='character', length=length(userSequence))
+  for (i in seq_along(userSequence)) {
+    id <- strsplit(names(userSequence)[i], " ")[[1]][1]
+    region <- nameToRegions[nameToRegions['Name'] == id][2]
+    newNames[i] <- paste(id, region, sep = " ")
   }
+  names(userSequence) <- newNames
   return(userSequence)
 }
 
