@@ -6,8 +6,14 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+## Description
+
 The goal of Cov2Comparator is to analyze SARS covid-2 genome across
 different geographic regions including performing multiple sequence
+alignments and phylogenetic tree. Unlike other packages, this package
+allows easy retrival of genome data by inputting region. It can also
+perform multiple sequence alignments and phylogenetic tree.
+Comprehensible plots can be presented in both ultiple sequence
 alignments and phylogenetic tree.
 
 ## Installation
@@ -90,7 +96,7 @@ An overview of the package is illustrated below.
 
 ![](./inst/extdata/overviewCov2.png)
 
-## Contribution
+## Contributions
 
 The author of this package is Kuai Yu. ***readGenome***,
 ***getSequenceByRegion***, ***getSequencesByRegions***,

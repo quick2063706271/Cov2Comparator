@@ -5,7 +5,7 @@
 #' @param fastaFile A string indicating the path of .fasta file
 #' @param nameToRegionsFile A string indicating the path of name to region .csv file
 #'
-#' @return Returns a AAStringSet with sequences from fastaFile are add.
+#' @return Returns a DNAStringSet with sequences from fastaFile are add.
 #'
 #' @examples
 #' # Example 1
@@ -70,12 +70,12 @@ readNameToRegions <- function(nameToRegionsFile) {
 #'
 #' A function that takes region as input. It will look up the accessionID of
 #' SARS-COV2 of this region. Then it will retrieve the sequence from NCBI
-#' database online and return as a AAStringSet object.
+#' database online and return as a DNAStringSet object.
 #'
 #' @param region A string indicating the interested region in which SARS-COV2
 #' are located that you want to study
 #'
-#' @return Returns a AAStringSet with sequences.
+#' @return Returns a DNAStringSet with sequences.
 #'
 #' @examples
 #' # Example 1
@@ -120,12 +120,12 @@ getSequenceByRegion <- function(region) {
 #'
 #' A function that takes regions as input. It will look up the accessionIDs of
 #' SARS-COV2 of this region. Then it will retrieve the sequences from NCBI
-#' database online and return as a AAStringSet object.
+#' database online and return as a DNAStringSet object.
 #'
 #' @param regions A vector of strings indicating the interested regions in
 #' which SARS-COV2 are located that you want to study
 #'
-#' @return Returns a AAStringSet with sequences.
+#' @return Returns a DNAStringSet with sequences.
 #'
 #' @examples
 #' # Example 1
