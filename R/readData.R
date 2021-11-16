@@ -32,14 +32,14 @@ readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
   if (class(fastaFile) != "character") {
     stop("Fasta file path should be a string")
   }
-  if (!file.exists(fastaFile)) {
+  if (! file.exists(fastaFile)) {
     stop("fastaFile not exist")
   }
   userSequence <- Biostrings::readDNAStringSet(fastaFile)
   if (is.null(nameToRegionsFile)) {
     return(userSequence)
   }
-  if (!file.exists(nameToRegionsFile)) {
+  if (! file.exists(nameToRegionsFile)) {
     stop("nameToRegionsFile not exist")
   }
   nameToRegions <- readNameToRegions(nameToRegionsFile = nameToRegionsFile)
@@ -102,7 +102,7 @@ getSequenceByRegion <- function(region) {
   if (class(region) != "character") {
     stop("Please input a character as argument")
   }
-  if (!is.element(region, accessionIDToRegion$Region)) {
+  if (! is.element(region, accessionIDToRegion$Region)) {
     stop("Sorry, currently data do not contain your interested region yet. \n
          Please input regions from following: (Canada, Italy, Wuhan, USA,
          Kenya, Bahrain, Germany, Pakistan, Britain,

@@ -23,7 +23,7 @@ database online and return as a AAStringSet object.
 # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
 # using "Italy" as input
 region <- "Italy"
-italySequence <- getSequenceByRegion("Italy")
+italySequence <- getSequenceByRegion(region)
 
 }
 \references{
@@ -31,7 +31,7 @@ H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
 Efficient manipulation of biological strings.
 R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 
-Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern
 phylogenetics and evolutionary
 analyses in R. Bioinformatics 35: 526-528.
 }

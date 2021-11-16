@@ -2,37 +2,39 @@
 % Please edit documentation in R/sequenceComparison.R
 \name{plotAlignment}
 \alias{plotAlignment}
-\title{Compare multiple sequence alignments}
+\title{Plot multiple sequence alignments}
 \usage{
 plotAlignment(alignment, refid, startIdx, endIdx)
 }
 \arguments{
-\item{sequences}{A AAStringset containing several sequences}
+\item{alignment}{A MsaAAMultipleAlignment object which is a result of multiple sequence alignment}
 
-\item{algorithm}{A string indicating the algorithm that user wants to use
-to calculate multiple sequence alignment}
+\item{refid}{A string indicating the name of reference sequence. This sequence must be in the alignment}
+
+\item{startIdx}{A integer indicating the start position of alignment that user wants to plot}
+
+\item{endIdx}{A integer indicating the end position of alignment that user wants to plot}
 }
 \value{
-Returns a msa
+Returns a plot
 }
 \description{
-A function that calculates multiple sequence alignments
+A function that plot a heatmap of multiple sequence alignments, showing all
+nucleotide that is different from the reference sequence
 }
 \examples{
 # Example 1
 # Create a basic msa and then plot a tree from it
 package(Biostrings)
-set1 <- Biostrings::AAStringSet("ATCGATCG")
-set2 <- Biostrings::AAStringSet("ATTTTTTT")
-set3 <- Biostrings::AAStringSet("ATCGATTT")
+set1 <- Biostrings::DNAStringSet("ATCGATCG")
+set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+set3 <- Biostrings::DNAStringSet("ATCGATTT")
 set <- union(set1, set2)
 set <- union(set, set3)
-align <- multiplSeqAlign(set)
-plotAlignment(align)
+names(set) <- c("a", "b", "c")
+align <- multipleSeqAlign(set)
+plotAlignment(align, refid = "a", startIdx = 1, endIdx = 8)
 
-\dontrun{
-# Example 2
-}
 }
 \references{
 Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
@@ -42,10 +44,6 @@ Structural approaches to sequence evolution: Molecules, networks,
 populations, series Biological and Medical Physics, Biomedical Engineering,
 207-232. Springer Verlag, New York.
 
-Venket Raghavan (2021). seqvisr: Biological Sequence Visualization Functions
-in R. R package version 0.2.5. https://github.com/vragh/seqvisr
-
-U. Bodenhofer, E. Bonatesta, C. Horejs-Kainrath, and S. Hochreiter (2015) msa:
-an R package for multiple sequence alignment. Bioinformatics 31(24):3997-
-9999. DOI: 10.1093/bioinformatics/btv176.
+Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12.
+https://CRAN.R-project.org/package=pheatmap
 }

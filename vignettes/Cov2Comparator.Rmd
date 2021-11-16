@@ -126,7 +126,7 @@ __*multiplSeqAlign*__. This functions is derived from __*msa::msa*__
 ```r
 # It will takes several minutes
 seqs
-align <- multiplSeqAlign(seqs, algorithm = 'ClustalW')
+align <- multipleSeqAlign(seqs, algorithm = 'ClustalW')
 align
 ```
 ```
