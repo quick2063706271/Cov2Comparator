@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The goal of Cov2Comparator is to analyze SARS covid-2 genome 
-  across different geographic regions including performing multiple    sequence alignments, phylogenetic tree and mutation analysis.
+  across different geographic regions including performing multiple sequence alignments and phylogenetic tree.
 
 ## Installation
 
@@ -45,6 +45,58 @@ data(package = "Cov2Comparator")
 browseVignettes("Cov2Comparator")
 ```
 An overview of the package is illustrated below. 
+
+```
+.
+├── Cov2Comparator.Rproj
+├── DESCRIPTION
+├── LICENSE
+├── LICENSE.md
+├── NAMESPACE
+├── R
+│   ├── phylogeneticTree.R
+│   ├── readData.R
+│   └── sequenceComparison.R
+├── README.Rmd
+├── README.md
+├── data
+│   ├── accessionIDToRegion.rda
+│   └── simpleAlign.rda
+├── inst
+│   └── extdata
+│       ├── MN985325.1.fasta
+│       ├── MT066156.1.fasta
+│       ├── MW309440.1.fasta
+│       ├── NC_045512.2.fasta
+│       ├── nameToCountry.txt
+│      └── overviewCov2.png
+├── man
+│   ├── createTree.Rd
+│   ├── figures
+│   │   └── README-pressure-1.png
+│   ├── getSequenceByRegion.Rd
+│   ├── getSequencesByRegions.Rd
+│   ├── multipleSeqAlign.Rd
+│   ├── plotAlignment.Rd
+│   ├── plotTree.Rd
+│   └── readGenome.Rd
+├── tests
+│   ├── testthat
+│   │   ├── Rplots.pdf
+│   │   ├── _snaps
+│   │   ├── test-createTree.R
+│   │   ├── test-getSequenceByRegion.R
+│   │   ├── test-getSequencesByRegions.R
+│   │   ├── test-multipleSeqAlign.R
+│   │   ├── test-plotAlignment.R
+│   │   ├── test-plotTree.R
+│   │   └── test-readGenome.R
+│   └── testthat.R
+└── vignettes
+    ├── Cov2Comparator.R
+    ├── Cov2Comparator.Rmd
+    └── Cov2Comparator.html
+```
 
 ![](./inst/extdata/overviewCov2.png)
 
