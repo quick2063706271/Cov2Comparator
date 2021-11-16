@@ -23,7 +23,7 @@ database online and return as a AAStringSet object.
 # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
 # using "Italy" as input
 regions <- c("Italy", "Canada", "USA")
-Sequence <- getSequencesByRegions(Regions)
+Sequence <- getSequencesByRegions(regions)
 
 }
 \references{

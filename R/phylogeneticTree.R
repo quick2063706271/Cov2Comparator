@@ -9,14 +9,14 @@
 #' @examples
 #' # Example 1
 #' # Create a basic msa and then create a tree from it
-#' package(msa)
-#' package(Biostrings)
+#' library(msa)
+#' library(Biostrings)
 #' set1 <- Biostrings::DNAStringSet("ATCGATCG")
 #' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
 #' set3 <- Biostrings::DNAStringSet("ATCGATTT")
-#' set <- union(set1, set2)
-#' set <- union(set, set3)
-#' align <- msa::msa(set)
+#' setTotal <- union(set1, set2)
+#' setTotal <- union(setTotal, set3)
+#' align <- msa::msa(setTotal)
 #' createTree(align)
 #'
 #' @references
@@ -63,14 +63,14 @@ createTree <- function(alignment) {
 #' @examples
 #' # Example 1
 #' # Create a basic msa and then plot a tree from it
-#' package(msa)
-#' package(Biostrings)
-#' set1 <- Biostrings::AAStringSet("ATCGATCG")
-#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
-#' set3 <- Biostrings::AAStringSet("ATCGATTT")
-#' set <- union(set1, set2)
-#' set <- union(set, set3)
-#' align <- msa::msa(set)
+#' library(msa)
+#' library(Biostrings)
+#' set1 <- Biostrings::DNAStringSet("ATCGATCG")
+#' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::DNAStringSet("ATCGATTT")
+#' setTotal <- union(set1, set2)
+#' setTotal <- union(setTotal, set3)
+#' align <- msa::msa(setTotal)
 #' tree <- createTree(align)
 #' plotTree(tree = tree,
 #'          name = "Simple tree",
@@ -100,11 +100,11 @@ plotTree <- function(tree, name, showRegionName = TRUE) {
   if (class(tree) != "phylo") {
     stop("Not a phylo tree object")
   }
-  if (class(name) != "character") {
+  if (! is.character(name)) {
     stop("Please input a valid plot name")
   }
-  if (!showRegionName) {
-    for (i in seq_along(1: length(hemoTree$tip.label))) {
+  if (! showRegionName) {
+    for (i in seq_along(1: length(tree$tip.label))) {
       tree$tip.label[i] = strsplit(tree$tip.label[[i]], " ")[[1]][1]
     }
   }

@@ -5,9 +5,9 @@ test_that("test simple multiple sequence alignment", {
   set1 <- Biostrings::DNAStringSet("ATCGATCG")
   set2 <- Biostrings::DNAStringSet("ATTTTTTT")
   set3 <- Biostrings::DNAStringSet("ATCGATTT")
-  set <- union(set1, set2)
-  set <- union(set, set3)
-  align <- Biostrings::unmasked(multipleSeqAlign(set))
+  setTotal <- union(set1, set2)
+  setTotal <- union(setTotal, set3)
+  align <- Biostrings::unmasked(multipleSeqAlign(Biostrings::DNAStringSet(setTotal)))
   expect_length(align, 3)
 })
 
@@ -16,14 +16,14 @@ test_that("test getSequenceByRegion using Muscle", {
   set1 <- Biostrings::DNAStringSet("ATCGATCG")
   set2 <- Biostrings::DNAStringSet("ATTTTTTT")
   set3 <- Biostrings::DNAStringSet("ATCGATTT")
-  set <- union(set1, set2)
-  set <- union(set, set3)
-  align <- Biostrings::unmasked(multipleSeqAlign(set, algorithm = "Muscle"))
+  setTotal <- union(set1, set2)
+  setTotal <- union(setTotal, set3)
+  align <- Biostrings::unmasked(multipleSeqAlign(Biostrings::DNAStringSet(setTotal), algorithm = "Muscle"))
   expect_length(align, 3)
 })
 
 test_that("test getSequenceByRegion using wrong sequences", {
   suppressPackageStartupMessages(library(Biostrings))
-  set <- "AASSAASS"
-  expect_error(multipleSeqAlign(set))
+  setTotal <- "AASSAASS"
+  expect_error(multipleSeqAlign(setTotal))
 })

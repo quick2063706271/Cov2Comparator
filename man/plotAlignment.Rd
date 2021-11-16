@@ -25,14 +25,14 @@ nucleotide that is different from the reference sequence
 \examples{
 # Example 1
 # Create a basic msa and then plot a tree from it
-package(Biostrings)
+library(Biostrings)
 set1 <- Biostrings::DNAStringSet("ATCGATCG")
 set2 <- Biostrings::DNAStringSet("ATTTTTTT")
 set3 <- Biostrings::DNAStringSet("ATCGATTT")
-set <- union(set1, set2)
-set <- union(set, set3)
-names(set) <- c("a", "b", "c")
-align <- multipleSeqAlign(set)
+setTotal <- union(set1, set2)
+setTotal <- union(setTotal, set3)
+names(setTotal) <- c("a", "b", "c")
+align <- multipleSeqAlign(setTotal)
 plotAlignment(align, refid = "a", startIdx = 1, endIdx = 8)
 
 }

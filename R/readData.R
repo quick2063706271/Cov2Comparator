@@ -58,7 +58,7 @@ readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
 
 
 readNameToRegions <- function(nameToRegionsFile) {
-  if (class(nameToRegionsFile) != "character") {
+  if (! is.character(nameToRegionsFile)) {
     stop("nameToRegionsFile path should be a string")
   }
   nameToRegions <- read.csv(nameToRegionsFile, header = FALSE)
@@ -99,7 +99,7 @@ readNameToRegions <- function(nameToRegionsFile) {
 
 
 getSequenceByRegion <- function(region) {
-  if (class(region) != "character") {
+  if (! is.character(region)) {
     stop("Please input a character as argument")
   }
   if (! is.element(region, accessionIDToRegion$Region)) {
@@ -132,7 +132,7 @@ getSequenceByRegion <- function(region) {
 #' # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
 #' # using "Italy" as input
 #' regions <- c("Italy", "Canada", "USA")
-#' Sequence <- getSequencesByRegions(Regions)
+#' Sequence <- getSequencesByRegions(regions)
 #'
 #' @references
 #'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:

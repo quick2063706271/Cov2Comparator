@@ -36,6 +36,25 @@ data(package = "Cov2Comparator")
 browseVignettes("Cov2Comparator")
 ```
 
+An overview of the package is illustrated below.
+
+![](./inst/extdata/overviewCov2.png)
+
+## Contribution
+
+The author of this package is Kuai Yu. ***readGenome***,
+***getSequenceByRegion***, ***getSequencesByRegions***,
+***plotAlignment*** functions make use of ***Biostrings*** package for
+converting fasta files and alignment to format DNAStringSet.
+***getSequenceByRegion*** function also makes use of ***ape*** package
+to download sequence from Genbank online. ***multipleSeqAlign***
+function uses ***msa*** package to perform multiple sequence alignment.
+***plotAlignment*** package function also uses ***pheatmap*** package to
+plot the result. ***createTree*** function uses ***msa*** package to
+convert data type, and ***seqinr*** to convert alignment to distance
+matrix. Then ***ape*** package is used to create the tree. The
+***plotTree*** function makes use of the ***graphic*** R package.
+
 ## Reference
 
 R Core Team (2021). R: A language and environment for statistical
@@ -60,43 +79,10 @@ phylogenetics and evolutionary analyses in R. Bioinformatics 35:
 Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12.
 <https://CRAN.R-project.org/package=pheatmap>
 
+BioRender. (2020). Image created by Silva, A. Retrieved November 16,
+2021, from <https://app.biorender.com/>
+
 ## Acknowledgemments
 
 This package was developed as part of an assessment for 2021 BCB410H:
 Applied Bioinformatics, University of Toronto, Toronto, CANADA.
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(Cov2Comparator)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

@@ -11,13 +11,13 @@
 #' @examples
 #' # Example 1
 #' # Create a basic msa and then plot a tree from it
-#' package(Biostrings)
+#' library(Biostrings)
 #' set1 <- Biostrings::DNAStringSet("ATCGATCG")
 #' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
 #' set3 <- Biostrings::DNAStringSet("ATCGATTT")
-#' set <- union(set1, set2)
-#' set <- union(set, set3)
-#' align <- multipleSeqAlign(set)
+#' setTotal <- union(set1, set2)
+#' setTotal <- union(setTotal, set3)
+#' align <- multipleSeqAlign(setTotal)
 
 #' \dontrun{
 #' # Example 2
@@ -73,14 +73,14 @@ multipleSeqAlign <- function(sequences, algorithm = "ClustalW") {
 #' @examples
 #' # Example 1
 #' # Create a basic msa and then plot a tree from it
-#' package(Biostrings)
+#' library(Biostrings)
 #' set1 <- Biostrings::DNAStringSet("ATCGATCG")
 #' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
 #' set3 <- Biostrings::DNAStringSet("ATCGATTT")
-#' set <- union(set1, set2)
-#' set <- union(set, set3)
-#' names(set) <- c("a", "b", "c")
-#' align <- multipleSeqAlign(set)
+#' setTotal <- union(set1, set2)
+#' setTotal <- union(setTotal, set3)
+#' names(setTotal) <- c("a", "b", "c")
+#' align <- multipleSeqAlign(setTotal)
 #' plotAlignment(align, refid = "a", startIdx = 1, endIdx = 8)
 #'
 #' @references
@@ -102,10 +102,10 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   if (class(alignment) != 'MsaDNAMultipleAlignment') {
     stop("Please provide a MsaDNAMultipleAlignment object as alignment")
   }
-  if (class(refid) != "character") {
+  if (! is.character(class(refid))) {
     stop("Please provide a character object as refid")
   }
-  if (class(startIdx) != "numeric" | class(endIdx) != "numeric") {
+  if ((! is.numeric(startIdx)) | (! is.numeric(endIdx))) {
     stop("Please provide numeric value for startIdx and endIdx")
   }
   if (round(startIdx) != startIdx | round(endIdx) != endIdx) {
@@ -114,10 +114,19 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   if (startIdx >= endIdx) {
     stop("Please provide startIdx that is smaller than endIdx")
   }
+  if (startIdx < 1 | endIdx < 1) {
+    stop("Index out of bounds. Please choose provide startIdx, endIndx that is positive number")
+  }
   xalign <- Biostrings::unmasked(alignment)
+  if (is.null(names(xalign))) {
+    stop("Your alignment do not have names")
+  }
   lengthAlign <- as.integer(nchar(as.character(xalign[1])))
   if (startIdx > lengthAlign | endIdx > lengthAlign) {
     stop("Index out of bounds. Please choose provide startIdx, endIndx that is smaller than length of alignmet")
+  }
+  if (! is.element(refid, names(xalign))) {
+    stop("Please provide a valid refid")
   }
   refSequence <- xalign[names(xalign) == refid]
   seqMatrix <- sapply(1:length(xalign),function(i){

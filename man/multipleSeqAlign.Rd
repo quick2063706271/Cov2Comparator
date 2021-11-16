@@ -21,13 +21,13 @@ A function that calculates multiple sequence alignments
 \examples{
 # Example 1
 # Create a basic msa and then plot a tree from it
-package(Biostrings)
+library(Biostrings)
 set1 <- Biostrings::DNAStringSet("ATCGATCG")
 set2 <- Biostrings::DNAStringSet("ATTTTTTT")
 set3 <- Biostrings::DNAStringSet("ATCGATTT")
-set <- union(set1, set2)
-set <- union(set, set3)
-align <- multipleSeqAlign(set)
+setTotal <- union(set1, set2)
+setTotal <- union(setTotal, set3)
+align <- multipleSeqAlign(setTotal)
 \dontrun{
 # Example 2
 }
