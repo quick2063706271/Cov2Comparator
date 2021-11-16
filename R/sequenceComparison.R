@@ -2,7 +2,7 @@
 #'
 #' A function that calculates multiple sequence alignments
 #'
-#' @param sequences A AAStringset containing several sequences
+#' @param sequences A DNAStringset containing several sequences
 #' @param algorithm A string indicating the algorithm that user wants to use
 #' to calculate multiple sequence alignment
 #'
@@ -13,9 +13,9 @@
 #' # Create a basic msa and then plot a tree from it
 #' package(msa)
 #' package(Biostrings)
-#' set1 <- Biostrings::AAStringSet("ATCGATCG")
-#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
-#' set3 <- Biostrings::AAStringSet("ATCGATTT")
+#' set1 <- Biostrings::DNAStringSet("ATCGATCG")
+#' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::DNAStringSet("ATCGATTT")
 #' set <- union(set1, set2)
 #' set <- union(set, set3)
 #' align <- multiplSeqAlign(set)
@@ -42,6 +42,9 @@
 #' @importFrom msa msa
 #'
 multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
+  if (class(sequences) != "DNAStringSet") {
+    stop("Please provide a DNAStringSet as sequences")
+  }
   avaialbleAlgorithm <- c("ClustalW", "ClustalOmega", "Muscle")
   if (!is.element(algorithm, avaialbleAlgorithm)) {
     stop("Please input a valid algorithm from (ClustalW, ClustalOmega, Muscle)")
@@ -64,9 +67,9 @@ multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
 #' # Create a basic msa and then plot a tree from it
 #' package(msa)
 #' package(Biostrings)
-#' set1 <- Biostrings::AAStringSet("ATCGATCG")
-#' set2 <- Biostrings::AAStringSet("ATTTTTTT")
-#' set3 <- Biostrings::AAStringSet("ATCGATTT")
+#' set1 <- Biostrings::DNAStringSet("ATCGATCG")
+#' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::DNAStringSet("ATCGATTT")
 #' set <- union(set1, set2)
 #' set <- union(set, set3)
 #' align <- multiplSeqAlign(set)
@@ -145,10 +148,23 @@ saveAlignmentToFasta <- function(alignment, outputName) {
 #' @export
 #' @importFrom seqvisr msavisr
 
-plotAlignment <- function(alignment, outputName = 'align.fasta') {
+plotAlignment <- function(alignment, outputName = 'align.fasta', refSequence) {
+  if (class(alignment) != 'MsaDNAMultipleAlignment') {
+    stop("Please provide a MsaDNAMultipleAlignment object as input")
+  }
+  ids <- msa::msaConvert(alignment, type="seqinr::alignment")$nam
+  if (length(ids) < 1) {
+    stop("Please provide a valid MsaDNAMultipleAlignment object")
+  }
+  if (class(refSequence) != "character") {
+    stop("Please provide a character for refSequence")
+  }
+  if (!is.element(refSequence, ids)) {
+    stop("Please provide a valid character for refSequence")
+  }
   msaFile <- saveAlignmentToFasta(alignment, outputName)
   splot <- seqvisr::msavisr(mymsa = msaFile,
-          myref = 'NC_045512.2 Wuhan')
+          myref = refSequence)
   return(splot)
 }
 # [END]

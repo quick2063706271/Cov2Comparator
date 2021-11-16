@@ -108,7 +108,7 @@ align
 We can plot the alignment using __*plotAlignment*__
 
 ```{r}
-p <- plotAlignment(align, 'align.fasta')
+p <- plotAlignment(align, 'align.fasta', refSequence = 'NC_045512.2 Wuhan')
 p
 ```
 

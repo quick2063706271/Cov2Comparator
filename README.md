@@ -61,7 +61,7 @@ phylogenetics and evolutionaryanalyses in R. Bioinformatics 35: 526-528.
 ## Acknowledgemments
 
 This package was developed as part of an assessment for 2021 BCB410H:
-Applied Bioinformatics, University of Toronto, Toronto, CANADA.
+Applied Bioinformatics, University of Toronto, Toronto, CANADA.
 
 ## Example
 
