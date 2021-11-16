@@ -10,8 +10,6 @@ readGenome(fastaFile, nameToRegionsFile = NULL)
 \item{fastaFile}{A string indicating the path of .fasta file}
 
 \item{nameToRegionsFile}{A string indicating the path of name to region .csv file}
-
-\item{genomeDB}{A dataframe storing sequence and their corresponding region}
 }
 \value{
 Returns a AAStringSet with sequences from fastaFile are add.

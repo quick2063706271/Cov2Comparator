@@ -23,9 +23,9 @@ A helper function that saves alignment to a fasta file
 # Create a basic msa and then plot a tree from it
 package(msa)
 package(Biostrings)
-set1 <- Biostrings::AAStringSet("ATCGATCG")
-set2 <- Biostrings::AAStringSet("ATTTTTTT")
-set3 <- Biostrings::AAStringSet("ATCGATTT")
+set1 <- Biostrings::DNAStringSet("ATCGATCG")
+set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+set3 <- Biostrings::DNAStringSet("ATCGATTT")
 set <- union(set1, set2)
 set <- union(set, set3)
 align <- multiplSeqAlign(set)

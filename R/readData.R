@@ -4,7 +4,6 @@
 #'
 #' @param fastaFile A string indicating the path of .fasta file
 #' @param nameToRegionsFile A string indicating the path of name to region .csv file
-#' @param genomeDB A dataframe storing sequence and their corresponding region
 #'
 #' @return Returns a AAStringSet with sequences from fastaFile are add.
 #'
@@ -27,14 +26,21 @@
 #'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 #'
 #' @export
-#' @importFrom Biostrings readAAStringSet
+#' @importFrom Biostrings readDNAStringSet
+#' @importFrom Biostrings DNAStringSet
 readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
   if (class(fastaFile) != "character") {
     stop("Fasta file path should be a string")
   }
+  if (!file.exists(fastaFile)) {
+    stop("fastaFile not exist")
+  }
   userSequence <- Biostrings::readDNAStringSet(fastaFile)
   if (is.null(nameToRegionsFile)) {
     return(userSequence)
+  }
+  if (!file.exists(nameToRegionsFile)) {
+    stop("nameToRegionsFile not exist")
   }
   nameToRegions <- readNameToRegions(nameToRegionsFile = nameToRegionsFile)
   if (length(userSequence) == 0) {
@@ -47,7 +53,7 @@ readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
     newNames[i] <- paste(id, region, sep = " ")
   }
   names(userSequence) <- newNames
-  return(userSequence)
+  return(Biostrings::DNAStringSet(userSequence))
 }
 
 
@@ -76,19 +82,19 @@ readNameToRegions <- function(nameToRegionsFile) {
 #' # Load MT066156.1 (accessionID of SARS-COV2 in Italy) by
 #' # using "Italy" as input
 #' region <- "Italy"
-#' italySequence <- getSequenceByRegion("Italy")
+#' italySequence <- getSequenceByRegion(region)
 #'
 #' @references
 #'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
 #'Efficient manipulation of biological strings.
 #'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 #'
-#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern
 #'phylogenetics and evolutionary
 #'analyses in R. Bioinformatics 35: 526-528.
 #'
 #' @export
-#' @importFrom Biostrings AAStringSet
+#' @importFrom Biostrings DNAStringSet
 #' @importFrom ape read.GenBank
 
 
@@ -138,16 +144,19 @@ getSequenceByRegion <- function(region) {
 #'analyses in R. Bioinformatics 35: 526-528.
 #'
 #' @export
-#' @importFrom Biostrings AAStringSet
+#' @importFrom Biostrings DNAStringSet
 getSequencesByRegions <- function(regions) {
   if (length(regions) < 1) {
     stop("Please input a vector containing at least one element")
+  }
+  if (is.element(FALSE, is.element(regions, accessionIDToRegion$Region))) {
+    stop("Your input contain region has not been supported yet")
   }
   newNames <- vector(mode='character', length=length(regions))
   sequences <- getSequenceByRegion(regions[1])
   newNames[1] <- names(sequences)[1]
   if (length(regions) == 1) {
-    return(DNAStringSet(sequences))
+    return(Biostrings::DNAStringSet(sequences))
   }
   regions <- regions[-1]
   for (i in seq_along(regions)) {
@@ -156,7 +165,7 @@ getSequencesByRegions <- function(regions) {
     sequences = union(sequences, iseq)
   }
   names(sequences) <- newNames
-  return(DNAStringSet(sequences))
+  return(Biostrings::DNAStringSet(sequences))
 }
 
 # [END]

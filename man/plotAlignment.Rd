@@ -4,7 +4,7 @@
 \alias{plotAlignment}
 \title{Compare multiple sequence alignments}
 \usage{
-plotAlignment(alignment, outputName = "align.fasta")
+plotAlignment(alignment, refid, startIdx, endIdx)
 }
 \arguments{
 \item{sequences}{A AAStringset containing several sequences}

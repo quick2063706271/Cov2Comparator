@@ -16,7 +16,7 @@ Depends: R (>= 3.1.0)
 Imports: 
   Biostrings,
   msa,
-  seqvisr,
+  pheatmap,
   ape,
   seqinr,
   graphics

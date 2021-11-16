@@ -7,7 +7,7 @@
 multiplSeqAlign(sequences, algorithm = "ClustalW")
 }
 \arguments{
-\item{sequences}{A AAStringset containing several sequences}
+\item{sequences}{A DNAStringset containing several sequences}
 
 \item{algorithm}{A string indicating the algorithm that user wants to use
 to calculate multiple sequence alignment}
@@ -23,9 +23,9 @@ A function that calculates multiple sequence alignments
 # Create a basic msa and then plot a tree from it
 package(msa)
 package(Biostrings)
-set1 <- Biostrings::AAStringSet("ATCGATCG")
-set2 <- Biostrings::AAStringSet("ATTTTTTT")
-set3 <- Biostrings::AAStringSet("ATCGATTT")
+set1 <- Biostrings::DNAStringSet("ATCGATCG")
+set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+set3 <- Biostrings::DNAStringSet("ATCGATTT")
 set <- union(set1, set2)
 set <- union(set, set3)
 align <- multiplSeqAlign(set)

@@ -39,17 +39,23 @@
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @importFrom msa msa
+#' @importFrom msa msaClustalW
+#' @importFrom msa msaMuscle
 #'
 multiplSeqAlign <- function(sequences, algorithm = "ClustalW") {
   if (class(sequences) != "DNAStringSet") {
     stop("Please provide a DNAStringSet as sequences")
   }
-  avaialbleAlgorithm <- c("ClustalW", "ClustalOmega", "Muscle")
+  avaialbleAlgorithm <- c("ClustalW", "Muscle")
   if (!is.element(algorithm, avaialbleAlgorithm)) {
     stop("Please input a valid algorithm from (ClustalW, ClustalOmega, Muscle)")
   }
-  alignment <- msa::msa(sequences, algorithm)
+  alignment <- NULL
+  if (algorithm == "Muscle") {
+    alignment <- msa::msaMuscle(sequences)
+  } else {
+    alignment <- msa::msaClustalW(sequences)
+  }
   return(alignment)
 }
 #' Save alignment to a fasta file
@@ -146,25 +152,38 @@ saveAlignmentToFasta <- function(alignment, outputName) {
 #'9999. DOI: 10.1093/bioinformatics/btv176.
 #'
 #' @export
-#' @importFrom seqvisr msavisr
+#' @importFrom pheatmap pheatmap
+#' @importFrom Biostrings unmasked
 
-plotAlignment <- function(alignment, outputName = 'align.fasta', refSequence) {
+plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   if (class(alignment) != 'MsaDNAMultipleAlignment') {
-    stop("Please provide a MsaDNAMultipleAlignment object as input")
+    stop("Please provide a MsaDNAMultipleAlignment object as alignment")
   }
-  ids <- msa::msaConvert(alignment, type="seqinr::alignment")$nam
-  if (length(ids) < 1) {
-    stop("Please provide a valid MsaDNAMultipleAlignment object")
+  if (class(refid) != "character") {
+    stop("Please provide a character object as refid")
   }
-  if (class(refSequence) != "character") {
-    stop("Please provide a character for refSequence")
+  if (class(startIdx) != "numeric" | class(endIdx) != "numeric") {
+    stop("Please provide numeric value for startIdx and endIdx")
   }
-  if (!is.element(refSequence, ids)) {
-    stop("Please provide a valid character for refSequence")
+  if (round(startIdx) != startIdx | round(endIdx) != endIdx) {
+    stop("Please provide intgers for startIdx and endIdx")
   }
-  msaFile <- saveAlignmentToFasta(alignment, outputName)
-  splot <- seqvisr::msavisr(mymsa = msaFile,
-          myref = refSequence)
-  return(splot)
+  if (startIdx >= endIdx) {
+    stop("Please provide startIdx that is smaller than endIdx")
+  }
+  xalign <- Biostrings::unmasked(alignment)
+  lengthAlign <- as.integer(nchar(as.character(xalign[1])))
+  if (startIdx > lengthAlign | endIdx > lengthAlign) {
+    stop("Index out of bounds. Please choose provide startIdx, endIndx that is smaller than length of alignmet")
+  }
+  refSequence <- xalign[names(xalign) == refid]
+  seqMatrix <- sapply(1:length(xalign),function(i){
+    as.numeric(as.matrix(xalign[i]) == as.matrix(refSequence))
+  })
+  seqMatrix <- t(seqMatrix)
+  row.names(seqMatrix) <- names(xalign)
+  title <- paste("Binary heat map of MSA respect to ", refid, " from ", as.character(startIdx), " to ", as.character(endIdx), sep = "")
+  heatmap <- pheatmap::pheatmap(seqMatrix[nrow(seqMatrix):1,startIdx:endIdx], cluster_rows=FALSE,cluster_cols=FALSE, main = title, labels_col = "nucleotide")
+  return(heatmap)
 }
 # [END]
