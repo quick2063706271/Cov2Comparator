@@ -75,6 +75,7 @@ readGenome <- function(fastaFile, nameToRegionsFile = NULL) {
 #'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 #'
 #' @importFrom utils read.csv
+#' @keywords internal
 
 readNameToRegions <- function(nameToRegionsFile) {
   # check input

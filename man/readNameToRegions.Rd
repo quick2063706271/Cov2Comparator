@@ -21,3 +21,4 @@ H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
 Efficient manipulation of biological strings.
 R package version 2.58.0. https://bioconductor.org/packages/Biostrings
 }
+\keyword{internal}
