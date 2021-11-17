@@ -121,6 +121,8 @@ print(fasta1)
 #     width seq                                                                                                                  names               
 # [1] 29882 ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGA...AGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAA MN985325.1 USA
 ```
+
+## multiple sequence alignment
 After loading the data, we can perform a multiple sequence alignment using 
 __*multiplSeqAlign*__. This functions is derived from __*msa::msa*__ 
 ```r
@@ -148,6 +150,12 @@ align
 # [3] ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATC...TTTTAATAGCTTCTTAGGAGAAT------------------------------------ MT066156.1 Italy
 # Con ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATC...TTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAA--------------------- Consensus 
 ```
+You can also use "Muscle" as algorithm to perform the alignment
+```r
+# It will takes several minutes
+align <- multipleSeqAlign(seqs, algorithm = 'muSCLE') # case does not matter
+align
+```
 
 We can plot the alignment using __*plotAlignment*__
 
@@ -158,6 +166,8 @@ p
 
 After that, multiple sequence alignment can be used to generate phylogenetic 
 tree using __*createTree*__
+
+## Phylogenetic tree
 ```r
 tree <- createTree(align)
 ```
@@ -169,6 +179,36 @@ plotTree(tree,
          name = "demo Alignment",
          showRegionName = TRUE)
 ```
+Tree can be ploted using __*plotTree*__ without region names followed
+```r
+plotTree(tree,
+         name = "demo Alignment",
+         showRegionName = FALSE)
+```
+
+## Reference
+R Core Team (2021). R: A language and environment for statistical computing. 
+R Foundation for Statistical Computing, Vienna, Austria. URL
+  https://www.R-project.org/.
+
+Charif, D. and Lobry, J.R. (2007). SeqinR 1.0-2: a contributed package to the R
+project for statistical computing devoted to biological sequences retrieval
+and analysis. Structural approaches to sequence evolution: Molecules, networks,
+populations, series Biological and Medical Physics, Biomedical Engineering,
+207-232. Springer Verlag, New York.
+
+Ulrich Bodenhofer, Enrico Bonatesta, Christoph Horejs-Kainrath, & Sepp 
+Hochreiter (2015). msa: an R package for multiple sequence alignment. 
+Bioinformatics, 31(24), 3997–3999.
+
+Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern
+phylogenetics and evolutionary analyses in R. Bioinformatics 35: 526-528.
+
+Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12.
+https://CRAN.R-project.org/package=pheatmap
+
+BioRender. (2020). Image created by Silva, A. Retrieved November 16, 2021, 
+from https://app.biorender.com/
 
 
 
