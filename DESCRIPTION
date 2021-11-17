@@ -19,7 +19,8 @@ Imports:
   pheatmap,
   ape,
   seqinr,
-  graphics
+  graphics,
+  utils
 Suggests: 
     rmarkdown,
     knitr,

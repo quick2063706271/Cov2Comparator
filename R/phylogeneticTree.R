@@ -40,22 +40,28 @@
 #' @importFrom msa msaConvert
 
 createTree <- function(alignment) {
+  # check input
   if (class(alignment) != 'MsaDNAMultipleAlignment') {
     stop("Please provide a MsaDNAMultipleAlignment object as input")
   }
+  # convert msa to seqinr::alignment
   aln2 <- msa::msaConvert(alignment, type="seqinr::alignment")
+  # make a distance matrix from alignment
   distanceMatrix <- seqinr::dist.alignment(aln2, "identity")
   as.matrix(distanceMatrix)
   tree <- ape::nj(distanceMatrix)
   return(tree)
 }
 
-#' Print a neighbor join tree object
+
+################################################################################
+
+
+#' Plot a neighbor join tree object
 #'
 #' A function that creates a neighbor join tree from multiple sequence alignment
 #'
-#' @param alignment A MsaAAMultipleAlignment object for creating phylogenetic
-#' tree
+#' @param tree A phylo object for plotting
 #' @param name A char indicating the name of plot
 #' @param showRegionName A boolean indicating if showing the region in the plot
 #' @return Plot a phylogenetic tree using this phylo object
@@ -97,6 +103,7 @@ createTree <- function(alignment) {
 
 
 plotTree <- function(tree, name, showRegionName = TRUE) {
+  # check input
   if (class(tree) != "phylo") {
     stop("Not a phylo tree object")
   }

@@ -6,7 +6,8 @@
 #' @param algorithm A string indicating the algorithm that user wants to use
 #' to calculate multiple sequence alignment
 #'
-#' @return Returns a msa
+#' @return Returns a MsaAAMultipleAlignment object which is the result of
+#' multiple sequence alignment
 #'
 #' @examples
 #' # Example 1
@@ -19,9 +20,6 @@
 #' setTotal <- union(setTotal, set3)
 #' align <- multipleSeqAlign(setTotal)
 
-#' \dontrun{
-#' # Example 2
-#'}
 #' @references
 #'Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R
 #'project for statistical computing devoted to biological sequences retrieval
@@ -41,16 +39,19 @@
 #' @importFrom msa msaClustalW
 #' @importFrom msa msaMuscle
 #'
-multipleSeqAlign <- function(sequences, algorithm = "ClustalW") {
+multipleSeqAlign <- function(sequences, algorithm = "clustalw") {
+  # check input
   if (class(sequences) != "DNAStringSet") {
     stop("Please provide a DNAStringSet as sequences")
   }
-  avaialbleAlgorithm <- c("ClustalW", "Muscle")
-  if (! is.element(algorithm, avaialbleAlgorithm)) {
+  avaialbleAlgorithm <- c("clustalw", "muscle")
+  # turn the algorithm to lower case
+  lowerAlgorithm <- tolower(algorithm)
+  if (! is.element(lowerAlgorithm, avaialbleAlgorithm)) {
     stop("Please input a valid algorithm from (ClustalW, ClustalOmega, Muscle)")
   }
   alignment <- NULL
-  if (algorithm == "Muscle") {
+  if (lowerAlgorithm == "muscle") {
     alignment <- msa::msaMuscle(sequences)
   } else {
     alignment <- msa::msaClustalW(sequences)
@@ -58,15 +59,22 @@ multipleSeqAlign <- function(sequences, algorithm = "ClustalW") {
   return(alignment)
 }
 
+################################################################################
+
+
 #' Plot multiple sequence alignments
 #'
 #' A function that plot a heatmap of multiple sequence alignments, showing all
 #' nucleotide that is different from the reference sequence
 #'
-#' @param alignment A MsaAAMultipleAlignment object which is a result of multiple sequence alignment
-#' @param refid A string indicating the name of reference sequence. This sequence must be in the alignment
-#' @param startIdx A integer indicating the start position of alignment that user wants to plot
-#' @param endIdx A integer indicating the end position of alignment that user wants to plot
+#' @param alignment A MsaAAMultipleAlignment object which is a result of
+#' multiple sequence alignment
+#' @param refid A string indicating the name of reference sequence.
+#' This sequence must be in the alignment
+#' @param startIdx A integer indicating the start position of alignment
+#' that user wants to plot
+#' @param endIdx A integer indicating the end position of alignment that
+#' user wants to plot
 #'
 #' @return Returns a plot
 #'
@@ -99,6 +107,7 @@ multipleSeqAlign <- function(sequences, algorithm = "ClustalW") {
 #' @importFrom Biostrings unmasked
 
 plotAlignment <- function(alignment, refid, startIdx, endIdx) {
+  # check input
   if (class(alignment) != 'MsaDNAMultipleAlignment') {
     stop("Please provide a MsaDNAMultipleAlignment object as alignment")
   }
@@ -115,7 +124,8 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
     stop("Please provide startIdx that is smaller than endIdx")
   }
   if (startIdx < 1 | endIdx < 1) {
-    stop("Index out of bounds. Please choose provide startIdx, endIndx that is positive number")
+    stop("Index out of bounds. Please choose provide startIdx,
+         endIndx that is positive number")
   }
   xalign <- Biostrings::unmasked(alignment)
   if (is.null(names(xalign))) {
@@ -123,19 +133,35 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   }
   lengthAlign <- as.integer(nchar(as.character(xalign[1])))
   if (startIdx > lengthAlign | endIdx > lengthAlign) {
-    stop("Index out of bounds. Please choose provide startIdx, endIndx that is smaller than length of alignmet")
+    stop("Index out of bounds. Please choose provide startIdx,
+         endIndx that is smaller than length of alignmet")
   }
   if (! is.element(refid, names(xalign))) {
     stop("Please provide a valid refid")
   }
+  # get sequence for reference
   refSequence <- xalign[names(xalign) == refid]
+  # make a binary matrix for all genome
   seqMatrix <- sapply(1:length(xalign),function(i){
     as.numeric(as.matrix(xalign[i]) == as.matrix(refSequence))
   })
+  # transpose the seqMatrix
   seqMatrix <- t(seqMatrix)
+  # assign names to matrix
   row.names(seqMatrix) <- names(xalign)
-  title <- paste("Binary heat map of MSA respect to ", refid, " from ", as.character(startIdx), " to ", as.character(endIdx), sep = "")
-  heatmap <- pheatmap::pheatmap(seqMatrix[nrow(seqMatrix):1,startIdx:endIdx], cluster_rows=FALSE,cluster_cols=FALSE, main = title, labels_col = "nucleotide")
+  title <- paste("Binary heat map of MSA respect to ",
+                 refid,
+                 " from ",
+                 as.character(startIdx),
+                 " to ",
+                 as.character(endIdx),
+                 sep = "")
+  heatmap <- pheatmap::pheatmap(seqMatrix[nrow(seqMatrix) : 1,
+                                          startIdx : endIdx],
+                                cluster_rows=FALSE,
+                                cluster_cols=FALSE,
+                                main = title,
+                                labels_col = "nucleotide")
   return(heatmap)
 }
 # [END]

@@ -53,11 +53,12 @@ An overview of the package is illustrated below.
     ├── R
     │   ├── phylogeneticTree.R
     │   ├── readData.R
+    │   ├── sysdata.rda
     │   └── sequenceComparison.R
     ├── README.Rmd
     ├── README.md
     ├── data
-    │   ├── accessionIDToRegion.rda
+    │   │
     │   └── simpleAlign.rda
     ├── inst
     │   └── extdata
@@ -66,7 +67,7 @@ An overview of the package is illustrated below.
     │       ├── MW309440.1.fasta
     │       ├── NC_045512.2.fasta
     │       ├── nameToCountry.txt
-    │      └── overviewCov2.png
+    │       └── overviewCov2.png
     ├── man
     │   ├── createTree.Rd
     │   ├── figures

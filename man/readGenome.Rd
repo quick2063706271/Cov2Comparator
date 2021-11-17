@@ -12,10 +12,11 @@ readGenome(fastaFile, nameToRegionsFile = NULL)
 \item{nameToRegionsFile}{A string indicating the path of name to region .csv file}
 }
 \value{
-Returns a AAStringSet with sequences from fastaFile are add.
+Returns a DNAStringSet with sequences from fastaFile are add.
 }
 \description{
-A function that read genome sequence .fasta file from user
+A function that read genome sequence .fasta file from user by inputting
+directories
 }
 \examples{
 # Example 1

@@ -2,17 +2,16 @@
 % Please edit documentation in R/phylogeneticTree.R
 \name{plotTree}
 \alias{plotTree}
-\title{Print a neighbor join tree object}
+\title{Plot a neighbor join tree object}
 \usage{
 plotTree(tree, name, showRegionName = TRUE)
 }
 \arguments{
+\item{tree}{A phylo object for plotting}
+
 \item{name}{A char indicating the name of plot}
 
 \item{showRegionName}{A boolean indicating if showing the region in the plot}
-
-\item{alignment}{A MsaAAMultipleAlignment object for creating phylogenetic
-tree}
 }
 \value{
 Plot a phylogenetic tree using this phylo object

@@ -4,7 +4,7 @@
 \alias{multipleSeqAlign}
 \title{Compare multiple sequence alignments}
 \usage{
-multipleSeqAlign(sequences, algorithm = "ClustalW")
+multipleSeqAlign(sequences, algorithm = "clustalw")
 }
 \arguments{
 \item{sequences}{A DNAStringset containing several sequences}
@@ -13,7 +13,8 @@ multipleSeqAlign(sequences, algorithm = "ClustalW")
 to calculate multiple sequence alignment}
 }
 \value{
-Returns a msa
+Returns a MsaAAMultipleAlignment object which is the result of
+multiple sequence alignment
 }
 \description{
 A function that calculates multiple sequence alignments
@@ -28,9 +29,6 @@ set3 <- Biostrings::DNAStringSet("ATCGATTT")
 setTotal <- union(set1, set2)
 setTotal <- union(setTotal, set3)
 align <- multipleSeqAlign(setTotal)
-\dontrun{
-# Example 2
-}
 }
 \references{
 Charif D, Lobry J. 2007. “SeqinR 1.0-2: a contributed package to the R

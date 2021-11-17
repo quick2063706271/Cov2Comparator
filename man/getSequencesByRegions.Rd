@@ -11,12 +11,12 @@ getSequencesByRegions(regions)
 which SARS-COV2 are located that you want to study}
 }
 \value{
-Returns a AAStringSet with sequences.
+Returns a DNAStringSet with sequences.
 }
 \description{
 A function that takes regions as input. It will look up the accessionIDs of
 SARS-COV2 of this region. Then it will retrieve the sequences from NCBI
-database online and return as a AAStringSet object.
+database online and return as a DNAStringSet object.
 }
 \examples{
 # Example 1

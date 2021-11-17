@@ -7,13 +7,17 @@
 plotAlignment(alignment, refid, startIdx, endIdx)
 }
 \arguments{
-\item{alignment}{A MsaAAMultipleAlignment object which is a result of multiple sequence alignment}
+\item{alignment}{A MsaAAMultipleAlignment object which is a result of
+multiple sequence alignment}
 
-\item{refid}{A string indicating the name of reference sequence. This sequence must be in the alignment}
+\item{refid}{A string indicating the name of reference sequence.
+This sequence must be in the alignment}
 
-\item{startIdx}{A integer indicating the start position of alignment that user wants to plot}
+\item{startIdx}{A integer indicating the start position of alignment
+that user wants to plot}
 
-\item{endIdx}{A integer indicating the end position of alignment that user wants to plot}
+\item{endIdx}{A integer indicating the end position of alignment that
+user wants to plot}
 }
 \value{
 Returns a plot
