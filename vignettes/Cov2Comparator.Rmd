@@ -63,11 +63,10 @@ Here is an example.
 wuhanSeq <- getSequenceByRegion("Wuhan")
 print(wuhanSeq)
 ```
+```
 # DNAStringSet object of length 1:
 #    width seq                                                                                                                            names               
 # [1] 29903 ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATCTGT...GATTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA NC_045512.2 Wuhan
-```
-
 ```
 
 __*getSequencesByRegions*__ allows user to retrieve a SARS-COV2 genome by 
@@ -185,7 +184,7 @@ plotTree(tree,
          name = "demo Alignment",
          showRegionName = FALSE)
 ```
-\
+
 
 
 

@@ -13,6 +13,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: R (>= 3.1.0)
+biocViews:
 Imports: 
   Biostrings,
   msa,
