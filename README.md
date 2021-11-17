@@ -16,6 +16,8 @@ perform multiple sequence alignments and phylogenetic tree.
 Comprehensible plots can be presented in both ultiple sequence
 alignments and phylogenetic tree.
 
+This package is built on macOS 12.0.1. R version 4.0.5
+
 ## Installation
 
 You can install the development version of Cov2Comparator from
