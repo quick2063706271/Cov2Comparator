@@ -185,6 +185,14 @@ plotTree(tree,
          name = "demo Alignment",
          showRegionName = FALSE)
 ```
+\
+
+
+
+
+
+
+
 
 ## Reference
 R Core Team (2021). R: A language and environment for statistical computing. 
