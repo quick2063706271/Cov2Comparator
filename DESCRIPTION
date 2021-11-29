@@ -21,7 +21,8 @@ Imports:
   ape,
   seqinr,
   graphics,
-  utils
+  utils,
+  shiny
 Suggests: 
     rmarkdown,
     knitr,

@@ -29,8 +29,6 @@ nameToRegionsFile <- system.file("extdata", "nameToCountry.txt",
   package="Cov2Comparator")
 fasta1 <- readGenome(fastaPath1, nameToRegionsFile)
 
-
-
 }
 \references{
 H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
