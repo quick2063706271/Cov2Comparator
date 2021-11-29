@@ -4,6 +4,7 @@
 #'
 #' @param alignment A MsaAAMultipleAlignment object for creating phylogenetic
 #' tree
+#'
 #' @return Returns a phylo object which is a phylogenetic tree
 #'
 #' @examples
@@ -64,6 +65,7 @@ createTree <- function(alignment) {
 #' @param tree A phylo object for plotting
 #' @param name A char indicating the name of plot
 #' @param showRegionName A boolean indicating if showing the region in the plot
+#'
 #' @return Plot a phylogenetic tree using this phylo object
 #'
 #' @examples
