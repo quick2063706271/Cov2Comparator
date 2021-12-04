@@ -22,7 +22,8 @@ Imports:
   seqinr,
   graphics,
   utils,
-  shiny
+  shiny,
+  shinybusy
 Suggests: 
     rmarkdown,
     knitr,

@@ -4,7 +4,7 @@
 \alias{plotTree}
 \title{Plot a neighbor join tree object}
 \usage{
-plotTree(tree, name, showRegionName = TRUE)
+plotTree(tree, name = "Phylogenetic Tree", showRegionName = TRUE, type)
 }
 \arguments{
 \item{tree}{A phylo object for plotting}
@@ -12,6 +12,9 @@ plotTree(tree, name, showRegionName = TRUE)
 \item{name}{A char indicating the name of plot}
 
 \item{showRegionName}{A boolean indicating if showing the region in the plot}
+
+\item{type}{A string indicating the type of tree including "phylogram",
+"cladogram", "fan", "unrooted", "radial"}
 }
 \value{
 Plot a phylogenetic tree using this phylo object

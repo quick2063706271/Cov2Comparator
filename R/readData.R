@@ -205,5 +205,49 @@ getSequencesByRegions <- function(regions) {
   return(Biostrings::DNAStringSet(sequences))
 }
 
+
+################################################################################
+
+
+#' Union two DNAStringSet
+#'
+#' A function that takes two DNAStringSet and union them into one.
+#'
+#' @param set1 A DNAStringSet contains DNA sequence
+#' @param set2 A DNAStringSet contains DNA sequence
+#'
+#' @return Returns a DNAStringSet with sequences contained in set1 and set2.
+#'
+#' @examples
+#' # Example 1
+#' library(Biostrings)
+#' set1 <- Biostrings::DNAStringSet("ATCGATCG")
+#' set2 <- Biostrings::DNAStringSet("ATTTTTTT")
+#' set3 <- Biostrings::DNAStringSet("ATCGATTT")
+#' setTotal <- unionDNASets(set1, set2)
+#'
+#' @references
+#'H. Pagès, P. Aboyoun, R. Gentleman and S. DebRoy (2020). Biostrings:
+#'Efficient manipulation of biological strings.
+#'R package version 2.58.0. https://bioconductor.org/packages/Biostrings
+#'
+#'Paradis E. & Schliep K. 2019. ape 5.0: an environment for modern
+#'phylogenetics and evolutionary
+#'analyses in R. Bioinformatics 35: 526-528.
+#'
+#' @export
+#' @importFrom Biostrings DNAStringSet
+#' @importFrom Biostrings union
+
+unionDNASets <- function(set1, set2) {
+  if (is.null(set1)) {
+    return(set2)
+  }
+  if (is.null(set2)) {
+    return(set1)
+  }
+  return(Biostrings::DNAStringSet(Biostrings::union(set1, set2)))
+}
+
 # [END]
 

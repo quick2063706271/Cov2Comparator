@@ -56,6 +56,7 @@ multipleSeqAlign <- function(sequences, algorithm = "clustalw") {
   } else {
     alignment <- msa::msaClustalW(sequences)
   }
+  print("==Comparison done!==")
   return(alignment)
 }
 
@@ -105,14 +106,20 @@ multipleSeqAlign <- function(sequences, algorithm = "clustalw") {
 #' @export
 #' @importFrom pheatmap pheatmap
 #' @importFrom Biostrings unmasked
+#' @importFrom BiocGenerics width
 
 plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   # check input
   if (class(alignment) != 'MsaDNAMultipleAlignment') {
     stop("Please provide a MsaDNAMultipleAlignment object as alignment")
   }
-  if (! is.character(class(refid))) {
-    stop("Please provide a character object as refid")
+  xalign <- Biostrings::unmasked(alignment)
+  lengthOfAlign <- BiocGenerics::width(xalign)[1]
+  if (missing(startIdx)) {
+    startIdx <- 1
+  }
+  if (missing(endIdx)) {
+    endIdx <- lengthOfAlign
   }
   if ((! is.numeric(startIdx)) | (! is.numeric(endIdx))) {
     stop("Please provide numeric value for startIdx and endIdx")
@@ -127,7 +134,11 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
     stop("Index out of bounds. Please choose provide startIdx,
          endIndx that is positive number")
   }
-  xalign <- Biostrings::unmasked(alignment)
+  if (startIdx > lengthOfAlign | endIdx > lengthOfAlign) {
+    stop("Index out of bounds. Please choose provide startIdx,
+         endIndx that is positive number")
+  }
+
   if (is.null(names(xalign))) {
     stop("Your alignment do not have names")
   }
@@ -135,6 +146,12 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   if (startIdx > lengthAlign | endIdx > lengthAlign) {
     stop("Index out of bounds. Please choose provide startIdx,
          endIndx that is smaller than length of alignmet")
+  }
+  if (missing(refid)) {
+    refid <- names(xalign)[1]
+  }
+  if (! is.character(class(refid))) {
+    stop("Please provide a character object as refid")
   }
   if (! is.element(refid, names(xalign))) {
     stop("Please provide a valid refid")

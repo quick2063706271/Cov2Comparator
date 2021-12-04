@@ -65,6 +65,8 @@ createTree <- function(alignment) {
 #' @param tree A phylo object for plotting
 #' @param name A char indicating the name of plot
 #' @param showRegionName A boolean indicating if showing the region in the plot
+#' @param type A string indicating the type of tree including "phylogram",
+#' "cladogram", "fan", "unrooted", "radial"
 #'
 #' @return Plot a phylogenetic tree using this phylo object
 #'
@@ -104,7 +106,7 @@ createTree <- function(alignment) {
 #'
 
 
-plotTree <- function(tree, name, showRegionName = TRUE) {
+plotTree <- function(tree, name = "Phylogenetic Tree", showRegionName = TRUE, type) {
   # check input
   if (class(tree) != "phylo") {
     stop("Not a phylo tree object")
@@ -117,7 +119,11 @@ plotTree <- function(tree, name, showRegionName = TRUE) {
       tree$tip.label[i] = strsplit(tree$tip.label[[i]], " ")[[1]][1]
     }
   }
-  plot <- graphics::plot(tree, main = name)
+  treeTypes <- c("phylogram", "cladogram", "fan", "unrooted", "radial")
+  if (! is.element(type, treeTypes)) {
+    type <- "phylogram"
+  }
+  plot <- graphics::plot(tree, main = name, type = type)
   return(plot)
 }
 # [END]
