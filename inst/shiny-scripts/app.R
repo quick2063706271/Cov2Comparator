@@ -1,6 +1,8 @@
 library(shiny)
 library(shinybusy)
 
+pdf(NULL)
+
 ui <- fluidPage(
   tags$head(tags$style(
     HTML('
@@ -136,13 +138,9 @@ server <- function(input, output, session) {
   alignment <- reactiveValues(data = NULL)
   plotTwoGraphs <- reactive({
     output$plotMsa <- renderPlot({
-      if (input$startIdx == 1 & input$endIdx == 1 ) {
-        plotAlignment(alignment$data)
-      } else {
         plotAlignment(alignment$data,
                       startIdx = as.numeric(input$startIdx),
                       endIdx = as.numeric(input$endIdx))
-      }
     })
     output$plotTree <- renderPlot({
       plotTree(tree = alignment$tree,

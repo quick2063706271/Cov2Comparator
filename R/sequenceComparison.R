@@ -121,6 +121,10 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   if (missing(endIdx)) {
     endIdx <- lengthOfAlign
   }
+  if (startIdx == 1 & endIdx == 1) {
+    startIdx <- 1
+    endIdx <- lengthOfAlign
+  }
   if ((! is.numeric(startIdx)) | (! is.numeric(endIdx))) {
     stop("Please provide numeric value for startIdx and endIdx")
   }
@@ -164,6 +168,7 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
   })
   # transpose the seqMatrix
   seqMatrix <- t(seqMatrix)
+  seqMatrix <- seqMatrix[nrow(seqMatrix) : 1, startIdx : endIdx]
   # assign names to matrix
   row.names(seqMatrix) <- names(xalign)
   title <- paste("Binary heat map of MSA respect to ",
@@ -173,12 +178,19 @@ plotAlignment <- function(alignment, refid, startIdx, endIdx) {
                  " to ",
                  as.character(endIdx),
                  sep = "")
-  heatmap <- pheatmap::pheatmap(seqMatrix[nrow(seqMatrix) : 1,
-                                          startIdx : endIdx],
-                                cluster_rows=FALSE,
-                                cluster_cols=FALSE,
+  genomeMatrix <- as.matrix(xalign)
+  genomeMatrix <- genomeMatrix[nrow(genomeMatrix) : 1, startIdx : endIdx]
+  if (endIdx - startIdx > 40) {
+    genomeMatrix <- FALSE
+  }
+  heatmap <- pheatmap::pheatmap(seqMatrix,
+                                cluster_rows = FALSE,
+                                cluster_cols = FALSE,
                                 main = title,
-                                labels_col = "nucleotide")
+                                labels_col = "nucleotide",
+                                color = c("blue", "red"),
+                                display_numbers = genomeMatrix,
+                                breaks = c(-1, 0.5, 2))
   return(heatmap)
 }
 # [END]

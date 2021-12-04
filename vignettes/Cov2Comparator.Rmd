@@ -173,6 +173,17 @@ We can plot the alignment using __*plotAlignment*__
 p <- plotAlignment(alignment = align, refid = 'NC_045512.2 Wuhan', startIdx = 29820, endIdx = 29902)
 p
 ```
+![](./MultipleSeqAlignPlot.png)
+
+If we restrain the window size less than 40, we can see nulceotide labels on
+top of the heatmap
+
+```r
+p2 <- plotAlignment(alignment = align, refid = 'NC_045512.2 Wuhan', startIdx = 29865, endIdx = 29900)
+```
+![](./MSAPlotWithNucleotide.png)
+
+
 
 After that, multiple sequence alignment can be used to generate phylogenetic 
 tree using __*createTree*__
@@ -189,13 +200,26 @@ plotTree(tree,
          name = "demo Alignment",
          showRegionName = TRUE)
 ```
+![](./treeWithName.png)
+
 Tree can be ploted using __*plotTree*__ without region names followed
 ```r
 plotTree(tree,
          name = "demo Alignment",
          showRegionName = FALSE)
 ```
+![](./treeWithoutName.png)
 
+We can choose different type of tree to display. The default is phylogram.
+We can choose type from "phylogram", "cladogram", "fan", "unrooted", "radial"
+```r
+plotTree(tree,
+         name = "demo Alignment",
+         showRegionName = FALSE,
+         type = "cladogram")
+```
+
+![](./treeCladogram.png)
 
 ## Reference
 R Core Team (2021). R: A language and environment for statistical computing. 

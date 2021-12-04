@@ -119,6 +119,9 @@ plotTree <- function(tree, name = "Phylogenetic Tree", showRegionName = TRUE, ty
       tree$tip.label[i] = strsplit(tree$tip.label[[i]], " ")[[1]][1]
     }
   }
+  if (missing(type)) {
+    type <- "phylogram"
+  }
   treeTypes <- c("phylogram", "cladogram", "fan", "unrooted", "radial")
   if (! is.element(type, treeTypes)) {
     type <- "phylogram"
