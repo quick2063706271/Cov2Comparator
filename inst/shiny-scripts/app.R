@@ -1,9 +1,9 @@
 library(shiny)
 library(shinybusy)
-
-pdf(NULL)
+library(shinyalert)
 
 ui <- fluidPage(
+  useShinyalert(),
   tags$head(tags$style(
     HTML('
          #sidebar {
@@ -127,7 +127,7 @@ server <- function(input, output, session) {
   # Upload files
   observeEvent(input$upload,{
     if (is.null(input$fastaFile)) {
-      updateActionButton(session, "upload", label = "Upload Failed! No files uploaded")
+      shinyalert("Upload Failed! No files uploaded.", type = "error")
     } else {
       uploadedSet <- readGenome(fastaFile = input$fastaFile$datapath,
                                 nameToRegionsFile = input$nameToRegionFile$datapath)
@@ -135,32 +135,45 @@ server <- function(input, output, session) {
       updateActionButton(session, "upload", label = "Upload Success!!!")
     }
   })
+
   alignment <- reactiveValues(data = NULL)
-  plotTwoGraphs <- reactive({
-    output$plotMsa <- renderPlot({
-        plotAlignment(alignment$data,
-                      startIdx = as.numeric(input$startIdx),
-                      endIdx = as.numeric(input$endIdx))
+
+  startIdx <- reactive({
+    return(input$startIdx)
+  })
+
+  endIdx <- reactive({
+    return(input$endIdx)
+  })
+
+  output$plotMsa <- renderPlot({
+    if (! is.null(alignment$data)) {
+      plotAlignment(alignment$data,
+                    startIdx = as.numeric(startIdx()),
+                    endIdx = as.numeric(endIdx()))
+    }
     })
-    output$plotTree <- renderPlot({
+
+  output$plotTree <- renderPlot({
+    if (! is.null(alignment$data)) {
       plotTree(tree = alignment$tree,
                showRegionName = input$showRegion,
                type = input$selectTreeType)
-    })
+    }
   })
+
   observeEvent(input$msa,{
     # add selected regions
     selectedSet <- getSequencesByRegions(input$selectRegion)
     stringSet$data <- unionDNASets(stringSet$data, selectedSet)
     if (length(stringSet$data) < 3) {
-      updateActionButton(session, "msa", label = "Comparison fails. Please
-                         Provide at least 3 genomes")
+      shinyalert("Comparison fails. Please
+                         Provide at least 3 genomes", type = "error")
     } else {
       shinybusy::show_spinner() # show the spinner
       alignment$data <- multipleSeqAlign(stringSet$data, input$selectAlgorithm)
       shinybusy::hide_spinner() # hide the spinner
       alignment$tree <- createTree(alignment$data)
-      plotTwoGraphs()
     }
   })
 }

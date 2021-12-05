@@ -23,7 +23,8 @@ Imports:
   graphics,
   utils,
   shiny,
-  shinybusy
+  shinybusy,
+  shinyalert
 Suggests: 
     rmarkdown,
     knitr,
