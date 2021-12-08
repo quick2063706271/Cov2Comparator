@@ -29,7 +29,11 @@ devtools::install_github("quick2063706271/Cov2Comparator", build_vignettes = TRU
 library("Cov2Comparator")
 ```
 
-To run the shinyApp: Under construction
+To run the shinyApp:
+
+``` r
+runCov2Comparator()
+```
 
 ## Overview
 
@@ -140,6 +144,14 @@ Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12.
 
 BioRender. (2020). Image created by Silva, A. Retrieved November 16,
 2021, from <https://app.biorender.com/>
+
+Dean Attali and Tristan Edwards (2020). shinyalert: Easily Create Pretty
+Popup Messages (Modals) in ‘Shiny’. R package version 2.0.0.
+<https://CRAN.R-project.org/package=shinyalert>
+
+Fanny Meyer and Victor Perrier (2020). shinybusy: Busy Indicator for
+‘Shiny’ Applications. R package version 0.2.2.
+<https://CRAN.R-project.org/package=shinybusy>
 
 ## Acknowledgemments
 

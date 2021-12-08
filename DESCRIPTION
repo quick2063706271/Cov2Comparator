@@ -16,6 +16,7 @@ Depends: R (>= 3.1.0)
 biocViews:
 Imports: 
   Biostrings,
+  BiocGenerics,
   msa,
   pheatmap,
   ape,

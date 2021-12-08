@@ -3,7 +3,10 @@ library(shinybusy)
 library(shinyalert)
 
 ui <- fluidPage(
+  # Use pop up warning message
   useShinyalert(),
+
+  # Defines color of layout
   tags$head(tags$style(
     HTML('
          #sidebar {
@@ -28,6 +31,8 @@ ui <- fluidPage(
         "Select countries of your interests or upload your own fasta files to
         compare"
       ),
+
+      # Selction manual of regions
       selectInput(inputId = "selectRegion",
                   label = "Select regions of your interest",
                   choices = c("Wuhan" = "Wuhan",
@@ -53,15 +58,23 @@ ui <- fluidPage(
                   ".fasta"
                 )
       ),
+      tags$p(
+        "Example file: Cov2Comparator/inst/extdata/MN985325.1.fasta"
+      ),
       fileInput(inputId = "nameToRegionFile", label = "Upload nameToRegion file",
                 accept = c(
                   ".txt",
                   ".csv"
                 )
       ),
+      tags$p(
+        "Example file: Cov2Comparator/inst/extdata/nameToCountry.txt"
+      ),
       actionButton(inputId = "upload", label = "Upload Genome"),
       br(),
       br(),
+
+      # Select algorithm to run MSA
       selectInput(inputId = "selectAlgorithm",
                   label = "Select algorithm to run multiple sequence alignment",
                   choices = c("ClustalW" = "clustalw",
@@ -72,6 +85,8 @@ ui <- fluidPage(
       ),
       actionButton(inputId = "msa", label = "Run Comparison!"),
       hr(),
+
+      # Options to modify MSA plots
       titlePanel("Modify Alignment Plot"),
       tags$p("Select the range for alignment: "),
       fluidRow(column(5,
@@ -87,6 +102,8 @@ ui <- fluidPage(
                        width = "100px")
       )),
       hr(),
+
+      # Options to modify tree plot
       titlePanel("Modify Tree Plot"),
       tags$p("Select if you want to show region in the plot"),
       checkboxInput("showRegion",
@@ -132,6 +149,7 @@ server <- function(input, output, session) {
       uploadedSet <- readGenome(fastaFile = input$fastaFile$datapath,
                                 nameToRegionsFile = input$nameToRegionFile$datapath)
       stringSet$data <- uploadedSet
+      shinyalert("Upload Success!!!", type = "success")
       updateActionButton(session, "upload", label = "Upload Success!!!")
     }
   })
@@ -170,10 +188,12 @@ server <- function(input, output, session) {
       shinyalert("Comparison fails. Please
                          Provide at least 3 genomes", type = "error")
     } else {
+      shinyalert("Comparison Success!!! Please wait for few minutes.", type = "success")
       shinybusy::show_spinner() # show the spinner
       alignment$data <- multipleSeqAlign(stringSet$data, input$selectAlgorithm)
       shinybusy::hide_spinner() # hide the spinner
       alignment$tree <- createTree(alignment$data)
+      updateActionButton(session, "upload", label = "Upload Genome")
     }
   })
 }
