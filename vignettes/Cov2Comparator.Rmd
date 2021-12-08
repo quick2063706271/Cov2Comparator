@@ -276,27 +276,35 @@ sessionInfo()
 
 ## Reference
 R Core Team (2021). R: A language and environment for statistical computing. 
-R Foundation for Statistical Computing, Vienna, Austria. URL
-  https://www.R-project.org/.
+R Foundation for Statistical Computing, Vienna, Austria. 
+URL https://www.R-project.org/.
 
-Charif, D. and Lobry, J.R. (2007). SeqinR 1.0-2: a contributed package to the R
-project for statistical computing devoted to biological sequences retrieval
-and analysis. Structural approaches to sequence evolution: Molecules, networks,
-populations, series Biological and Medical Physics, Biomedical Engineering,
+Charif, D. and Lobry, J.R. (2007). SeqinR 1.0-2: a contributed package to the 
+R project for statistical computing devoted to biological sequences retrieval 
+and analysis. Structural approaches to sequence evolution: Molecules, networks, 
+populations, series Biological and Medical Physics, Biomedical Engineering, 
 207-232. Springer Verlag, New York.
 
 Ulrich Bodenhofer, Enrico Bonatesta, Christoph Horejs-Kainrath, & Sepp 
 Hochreiter (2015). msa: an R package for multiple sequence alignment. 
 Bioinformatics, 31(24), 3997–3999.
 
-Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern
+Paradis E. & Schliep K. (2019). ape 5.0: an environment for modern 
 phylogenetics and evolutionary analyses in R. Bioinformatics 35: 526-528.
 
-Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12.
+Raivo Kolde (2019). pheatmap: Pretty Heatmaps. R package version 1.0.12. 
 https://CRAN.R-project.org/package=pheatmap
 
 BioRender. (2020). Image created by Silva, A. Retrieved November 16, 2021, 
 from https://app.biorender.com/
+
+Dean Attali and Tristan Edwards (2020). shinyalert: Easily Create Pretty 
+Popup Messages (Modals) in ‘Shiny’. R package version 2.0.0. 
+https://CRAN.R-project.org/package=shinyalert
+
+Fanny Meyer and Victor Perrier (2020). shinybusy: Busy Indicator for 
+‘Shiny’ Applications. R package version 0.2.2. 
+https://CRAN.R-project.org/package=shinybusy
 
 
 
