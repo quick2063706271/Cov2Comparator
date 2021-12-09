@@ -53,7 +53,7 @@ ui <- fluidPage(
         "Upload your own genome sequences."
       ),
       # Select country/genome (selectInput)
-      fileInput(inputId = "fastaFile", label = "Upload your Fasta file",
+      fileInput(inputId = "fastaFile", label = "Upload your Fasta file (.fasta)",
                 accept = c(
                   ".fasta"
                 )
@@ -61,7 +61,7 @@ ui <- fluidPage(
       tags$p(
         "Example file: Cov2Comparator/inst/extdata/MN985325.1.fasta"
       ),
-      fileInput(inputId = "nameToRegionFile", label = "Upload nameToRegion file",
+      fileInput(inputId = "nameToRegionFile", label = "Upload nameToRegion file (.csv, .txt)",
                 accept = c(
                   ".txt",
                   ".csv"
